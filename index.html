@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wordsmith — learn English</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2D4A7C">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wordsmith">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF8F3; --surface:#FFFFFF; --surface-2:#F1EDE4;
+  --ink:#1C2530; --ink-soft:#5B6875; --ink-faint:#8B95A1;
+  --rule:#E3DED2; --indigo:#2D4A7C; --indigo-ink:#2D4A7C; --indigo-soft:#E8EDF6;
+  --marigold:#E09A2E; --green:#3C7A5A; --green-soft:#E4F0E9;
+  --berry:#A93B4B; --berry-soft:#F8E6E8;
+  --shadow:0 1px 0 rgba(28,37,48,.06);
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12181E; --surface:#1A222B; --surface-2:#222C36;
+    --ink:#E9E6E0; --ink-soft:#A3AEB9; --ink-faint:#7C8793;
+    --rule:#2B353F; --indigo:#9CBAE8; --indigo-ink:#9CBAE8; --indigo-soft:#1E2B3C;
+    --marigold:#E8B25C; --green:#74B693; --green-soft:#1B2E25;
+    --berry:#E48A95; --berry-soft:#332024; --shadow:0 1px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12181E; --surface:#1A222B; --surface-2:#222C36;
+  --ink:#E9E6E0; --ink-soft:#A3AEB9; --ink-faint:#7C8793;
+  --rule:#2B353F; --indigo:#9CBAE8; --indigo-ink:#9CBAE8; --indigo-soft:#1E2B3C;
+  --marigold:#E8B25C; --green:#74B693; --green-soft:#1B2E25;
+  --berry:#E48A95; --berry-soft:#332024; --shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:88px}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--marigold);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--rule);background:var(--paper);position:sticky;top:0;z-index:20}
+.top-in{max-width:720px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.brand{font-family:var(--serif);font-weight:600;font-size:21px;letter-spacing:-.01em;margin-right:auto}
+.brand span{color:var(--marigold)}
+.iconbtn{background:none;border:1px solid var(--rule);border-radius:999px;
+  width:34px;height:34px;display:grid;place-items:center;font-size:14px;color:var(--ink-soft)}
+.lvlpick{border:1px solid var(--rule);background:var(--surface);color:var(--ink);
+  border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;font-family:inherit}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);
+  border-top:1px solid var(--rule);padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.tabs-in{max-width:720px;margin:0 auto;display:flex}
+.tab{flex:1;background:none;border:0;padding:7px 1px 5px;display:flex;flex-direction:column;
+  align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--ink-faint)}
+.tab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:var(--indigo-ink)}
+
+main{padding-top:22px}
+.view{display:none}
+.view.on{display:block}
+
+h2.vh{font-family:var(--serif);font-weight:600;font-size:27px;letter-spacing:-.015em;margin:0 0 4px}
+p.vsub{margin:0 0 20px;color:var(--ink-soft);font-size:14.5px;max-width:52ch}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+.btn{background:var(--indigo);color:var(--paper);border:0;border-radius:9px;padding:11px 18px;font-weight:600;font-size:14.5px}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--rule)}
+.btn.wide{display:block;width:100%;text-align:center}
+.btn:disabled{opacity:.45;cursor:default}
+.eng{font-family:var(--serif)}
+.hidden{display:none!important}
+.meter{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--marigold);border-radius:99px;transition:width .35s ease}
+
+.hero{border:1px solid var(--rule);border-radius:14px;background:var(--surface);padding:22px;margin-bottom:22px}
+.hero .kicker{font-size:12px;font-weight:600;color:var(--ink-faint);margin-bottom:10px}
+.hero .word{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.02em;line-height:1.05;margin:0}
+.ipa{font-family:var(--serif);color:var(--ink-faint);font-size:15px;margin-top:6px}
+.pos{font-style:italic;color:var(--indigo-ink);font-size:14px}
+.sense{margin:12px 0 0;font-size:15.5px}
+.usage{font-family:var(--serif);font-size:16px;color:var(--ink-soft);
+  border-left:2px solid var(--marigold);padding-left:12px;margin-top:12px}
+.stats{display:flex;gap:10px;margin-bottom:22px}
+.stat{flex:1;background:var(--surface);border:1px solid var(--rule);border-radius:11px;padding:13px 14px}
+.stat b{display:block;font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1}
+.stat span{font-size:12px;color:var(--ink-faint);font-weight:500}
+.skillrow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);
+  border:1px solid var(--rule);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+.skillrow .nm{font-weight:600;font-size:15px;display:block}
+.skillrow .ds{font-size:12.5px;color:var(--ink-faint);display:block}
+.skillrow .grow{flex:1;min-width:0}
+.skillrow .pct{font-size:12.5px;color:var(--ink-soft);font-weight:600;flex-shrink:0}
+.skillrow .meter{margin-top:7px}
+
+.deckhead{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.deckhead .cnt{font-size:13px;color:var(--ink-faint);margin-left:auto}
+.flash{background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:30px 22px;
+  min-height:230px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;position:relative}
+.flash .word{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.02em}
+.flash .tapnote{position:absolute;bottom:12px;left:0;right:0;font-size:11.5px;color:var(--ink-faint)}
+.flash .back{text-align:left}
+.cardacts{display:flex;gap:10px;margin-top:14px}
+.cardacts .btn{flex:1}
+.knowbtn{background:var(--green-soft);color:var(--green);border:1px solid transparent;font-weight:600}
+.againbtn{background:var(--surface-2);color:var(--ink-soft);border:1px solid transparent;font-weight:600}
+
+.listitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);
+  border:1px solid var(--rule);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+.listitem .grow{flex:1;min-width:0}
+.listitem .nm{font-weight:600;font-size:15px;margin-bottom:2px;display:block}
+.listitem .ds{font-size:13px;color:var(--ink-faint);display:block}
+.num{font-family:var(--serif);font-size:15px;color:var(--indigo-ink);font-weight:600;width:26px;flex-shrink:0}
+.doneflag{color:var(--green);font-size:15px;flex-shrink:0}
+
+.backlink{background:none;border:0;padding:0;color:var(--indigo-ink);font-size:13.5px;font-weight:600;margin-bottom:14px}
+.lesson h3{font-family:var(--serif);font-size:25px;font-weight:600;margin:0 0 12px;letter-spacing:-.015em}
+.lesson p{font-size:15.5px;margin:0 0 13px;max-width:62ch}
+.exbox{background:var(--surface);border:1px solid var(--rule);border-radius:11px;padding:6px 16px;margin:16px 0}
+.exbox .ex{font-family:var(--serif);font-size:16.5px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.exbox .ex:last-child{border-bottom:0}
+.exbox .ex em{color:var(--ink-faint);font-family:var(--sans);font-size:13px;font-style:normal;display:block;margin-top:3px}
+.passage{font-family:var(--serif);font-size:17.5px;line-height:1.72;max-width:60ch}
+.passage p{margin:0 0 15px}
+
+.q{margin-top:22px;padding-top:20px;border-top:1px solid var(--rule)}
+.q .stem{font-family:var(--serif);font-size:18px;margin-bottom:14px;line-height:1.45}
+.opt{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--rule);
+  border-radius:9px;padding:12px 14px;margin-bottom:8px;font-size:15px;font-family:var(--serif)}
+.opt.right{background:var(--green-soft);border-color:var(--green);color:var(--green);font-weight:600}
+.opt.wrong{background:var(--berry-soft);border-color:var(--berry);color:var(--berry)}
+.opt:disabled{cursor:default}
+.why{font-size:14px;color:var(--ink-soft);margin-top:10px;padding:11px 13px;background:var(--surface-2);border-radius:9px}
+.qcount{font-size:12.5px;color:var(--ink-faint);font-weight:600;margin-bottom:10px}
+.scorebox{text-align:center;padding:26px 18px}
+.scorebox b{font-family:var(--serif);font-size:40px;font-weight:600;display:block}
+
+.line{display:flex;gap:11px;margin-bottom:13px;align-items:flex-start}
+.who{font-size:11.5px;font-weight:700;color:var(--ink-faint);width:56px;flex-shrink:0;padding-top:4px}
+.said{font-family:var(--serif);font-size:16.5px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:11px;padding:10px 14px}
+.line.you .said{background:var(--indigo-soft);border-color:transparent}
+.phrase{border-bottom:1px solid var(--rule);padding:12px 0}
+.phrase:last-child{border-bottom:0}
+.phrase .p{font-family:var(--serif);font-size:16.5px}
+.phrase .n{font-size:13.5px;color:var(--ink-soft);margin-top:3px}
+
+.ai{border:1px solid var(--rule);border-radius:12px;background:var(--surface);padding:16px;margin-top:22px}
+.ai h4{margin:0 0 4px;font-size:15px;font-weight:600}
+.ai .hint{font-size:13px;color:var(--ink-faint);margin:0 0 12px}
+.ai textarea,.ai input[type=text]{width:100%;font-family:var(--serif);font-size:16px;color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);border-radius:9px;padding:11px 13px;resize:vertical}
+.ai textarea{min-height:76px}
+.chatlog{max-height:340px;overflow-y:auto;margin-bottom:12px}
+.chatrow{display:flex;margin-bottom:10px}
+.bub{font-family:var(--serif);font-size:16px;border-radius:12px;padding:9px 13px;max-width:84%;background:var(--surface-2);white-space:pre-wrap}
+.chatrow.me{justify-content:flex-end}
+.chatrow.me .bub{background:var(--indigo-soft)}
+.fbk{margin-top:12px;font-size:14.5px}
+.fbk .verdict{font-weight:700;margin-bottom:6px}
+.fbk .verdict.ok{color:var(--green)}
+.fbk .verdict.fix{color:var(--berry)}
+.fbk .fixed{font-family:var(--serif);font-size:16.5px;margin:8px 0;padding-left:12px;border-left:2px solid var(--marigold)}
+.spin{font-size:13.5px;color:var(--ink-faint)}
+.empty{color:var(--ink-faint);font-size:14.5px;text-align:center;padding:30px 10px}
+
+/* toolkit */
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;-webkit-overflow-scrolling:touch}
+.chip{white-space:nowrap;background:var(--surface);border:1px solid var(--rule);border-radius:999px;
+  padding:7px 13px;font-size:13px;font-weight:600;color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--indigo);border-color:var(--indigo);color:var(--paper)}
+.searchbox{width:100%;font-family:inherit;font-size:15px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--rule);border-radius:9px;padding:10px 13px;margin-bottom:14px}
+.entry{border-bottom:1px solid var(--rule);padding:13px 0}
+.entry:last-child{border-bottom:0}
+.entry .hw{font-family:var(--serif);font-size:17px;font-weight:600}
+.entry .mn{font-size:14px;color:var(--ink-soft);margin-top:2px}
+.entry .eg{font-family:var(--serif);font-size:15.5px;color:var(--ink-faint);margin-top:5px}
+.vtable{width:100%;border-collapse:collapse;font-family:var(--serif);font-size:15.5px}
+.vtable th{font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink-faint);
+  text-align:left;padding:8px 8px;border-bottom:1px solid var(--rule)}
+.vtable td{padding:9px 8px;border-bottom:1px solid var(--rule)}
+.vtable tr:last-child td{border-bottom:0}
+.scrollx{overflow-x:auto}
+.tally{font-size:12.5px;color:var(--ink-faint);margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">Word<span>smith</span></div>
+    <select class="lvlpick" id="lvlpick" aria-label="Your level">
+      <option value="beginner">Beginner</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select>
+    <button class="iconbtn" id="themebtn" aria-label="Switch light or dark">◐</button>
+  </div>
+</header>
+
+<main>
+  <section class="view on" id="v-home"><div class="wrap" id="home"></div></section>
+  <section class="view" id="v-words"><div class="wrap" id="words"></div></section>
+  <section class="view" id="v-grammar"><div class="wrap" id="grammar"></div></section>
+  <section class="view" id="v-talk"><div class="wrap" id="talk"></div></section>
+  <section class="view" id="v-read"><div class="wrap" id="read"></div></section>
+  <section class="view" id="v-tools"><div class="wrap" id="tools"></div></section>
+</main>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="tabs-in">
+    <button class="tab" data-go="home" aria-current="page">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
+    <button class="tab" data-go="words">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10"/></svg>Words</button>
+    <button class="tab" data-go="grammar">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h7"/><path d="M17 17l2 2 3-4"/></svg>Grammar</button>
+    <button class="tab" data-go="talk">
+      <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Talk</button>
+    <button class="tab" data-go="read">
+      <svg viewBox="0 0 24 24"><path d="M3 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H3Z"/><path d="M21 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7Z"/></svg>Read</button>
+    <button class="tab" data-go="tools">
+      <svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 1 5 5L10 21l-5 1 1-5Z"/><path d="M13 8l3 3"/></svg>Tools</button>
+  </div>
+</nav>
+
+<script>
+const VOCAB = {
+beginner:[
+ {id:"b1",w:"borrow",ipa:"/ˈbɒr.oʊ/",pos:"verb",def:"To take something from someone and give it back later.",ex:"Can I borrow your pen for a minute?",note:"You borrow from someone; they lend to you."},
+ {id:"b2",w:"afford",ipa:"/əˈfɔːrd/",pos:"verb",def:"To have enough money or time for something.",ex:"We can't afford a new car this year.",note:"Almost always used with can, can't or could."},
+ {id:"b3",w:"crowded",ipa:"/ˈkraʊ.dɪd/",pos:"adjective",def:"Full of people, with little space left.",ex:"The bus was crowded this morning.",note:"Describes a place, never a person."},
+ {id:"b4",w:"queue",ipa:"/kjuː/",pos:"noun, verb",def:"A line of people waiting for their turn.",ex:"There was a long queue outside the bank.",note:"British English; Americans usually say line."},
+ {id:"b5",w:"tidy",ipa:"/ˈtaɪ.di/",pos:"adjective, verb",def:"Neat, with everything in its proper place.",ex:"Her desk is always tidy.",note:"Tidy up means to put things back in order."},
+ {id:"b6",w:"spare",ipa:"/sper/",pos:"adjective",def:"Extra, kept in case it is needed.",ex:"Do you have a spare charger?",note:"Spare time means free time."},
+ {id:"b7",w:"chore",ipa:"/tʃɔːr/",pos:"noun",def:"A small job around the house that has to be done regularly.",ex:"Washing the dishes is my least favourite chore.",note:"Often plural: household chores."},
+ {id:"b8",w:"hurry",ipa:"/ˈhɜːr.i/",pos:"verb, noun",def:"To move or act more quickly than usual.",ex:"Hurry — the train leaves in five minutes.",note:"Be in a hurry = have very little time."},
+ {id:"b9",w:"polite",ipa:"/pəˈlaɪt/",pos:"adjective",def:"Behaving in a way that shows respect for others.",ex:"It's polite to say thank you.",note:"The everyday opposite is rude."},
+ {id:"b10",w:"fetch",ipa:"/fetʃ/",pos:"verb",def:"To go somewhere, collect something, and bring it back.",ex:"Could you fetch me a glass of water?",note:"Fetch includes the journey there and back; bring does not."},
+ {id:"b11",w:"nearby",ipa:"/ˌnɪrˈbaɪ/",pos:"adjective, adverb",def:"A short distance away from here.",ex:"Is there a pharmacy nearby?",note:"No preposition after it — not nearby to here."},
+ {id:"b12",w:"upset",ipa:"/ʌpˈset/",pos:"adjective, verb",def:"Unhappy or worried because something bad happened.",ex:"She was upset about losing her keys.",note:"Stronger than sad, softer than angry."},
+ {id:"b13",w:"enough",ipa:"/ɪˈnʌf/",pos:"determiner, adverb",def:"As much as is needed.",ex:"We have enough chairs for everyone.",note:"Before nouns: enough time. After adjectives: warm enough."},
+ {id:"b14",w:"almost",ipa:"/ˈɔːl.moʊst/",pos:"adverb",def:"Very nearly, but not completely.",ex:"I'm almost ready.",note:"Goes before the word it changes: almost finished."},
+ {id:"b15",w:"break",ipa:"/breɪk/",pos:"noun, verb",def:"A short rest from work; also, to separate into pieces.",ex:"Let's take a ten-minute break.",note:"Past forms: broke, broken."},
+ {id:"b16",w:"cheap",ipa:"/tʃiːp/",pos:"adjective",def:"Costing little money.",ex:"The market is cheaper than the supermarket.",note:"Cheap can suggest poor quality; inexpensive is safer for praise."},
+ {id:"b17",w:"busy",ipa:"/ˈbɪz.i/",pos:"adjective",def:"Having a lot to do; also, full of activity.",ex:"I'm busy on Friday, sorry.",note:"Busy with something, or busy doing something."},
+ {id:"b18",w:"lend",ipa:"/lend/",pos:"verb",def:"To give something to someone for a short time.",ex:"Could you lend me twenty rupees?",note:"The mirror of borrow. Past form: lent."},
+ {id:"b19",w:"careful",ipa:"/ˈker.fəl/",pos:"adjective",def:"Giving attention so nothing goes wrong.",ex:"Be careful — the floor is wet.",note:"Careful with something; careful to do something."},
+ {id:"b20",w:"early",ipa:"/ˈɜːr.li/",pos:"adjective, adverb",def:"Before the usual or arranged time.",ex:"I woke up early today.",note:"No preposition: arrive early, not arrive in early."},
+ {id:"b21",w:"weather",ipa:"/ˈweð.ər/",pos:"noun",def:"The state of the sky and air — rain, sun, wind, heat.",ex:"The weather was terrible all week.",note:"Uncountable: never a weather or weathers."},
+ {id:"b22",w:"receipt",ipa:"/rɪˈsiːt/",pos:"noun",def:"A small printed paper proving you paid.",ex:"Keep the receipt in case you return it.",note:"The p is silent."},
+ {id:"b23",w:"advice",ipa:"/ədˈvaɪs/",pos:"noun",def:"An opinion about what someone should do.",ex:"She gave me some good advice.",note:"Uncountable: a piece of advice, never advices."},
+ {id:"b24",w:"borrowed time",ipa:"/ˈbɒr.oʊd ˈtaɪm/",pos:"phrase",def:"Extra time that will not last.",ex:"That old fridge is living on borrowed time.",note:"A first taste of idiom — always with living on."},
+ {id:"b25",w:"choose",ipa:"/tʃuːz/",pos:"verb",def:"To decide which one you want.",ex:"You can choose any seat you like.",note:"Past: chose. Participle: chosen."},
+ {id:"b26",w:"empty",ipa:"/ˈemp.ti/",pos:"adjective, verb",def:"Containing nothing.",ex:"The bottle is empty.",note:"The opposite is full, not filled."},
+ {id:"b27",w:"foreign",ipa:"/ˈfɔːr.ən/",pos:"adjective",def:"Belonging to a country that is not yours.",ex:"She speaks three foreign languages.",note:"The g is silent."},
+ {id:"b28",w:"guess",ipa:"/ɡes/",pos:"verb, noun",def:"To give an answer without being sure.",ex:"Guess how old he is.",note:"I guess so is a mild yes in speech."},
+ {id:"b29",w:"loud",ipa:"/laʊd/",pos:"adjective",def:"Making a lot of noise.",ex:"The music was too loud.",note:"Aloud means out loud when reading — a different word."},
+ {id:"b30",w:"nervous",ipa:"/ˈnɜːr.vəs/",pos:"adjective",def:"Worried about something that is about to happen.",ex:"I'm nervous about the interview.",note:"Nervous about, not nervous for."}
+],
+intermediate:[
+ {id:"i1",w:"reluctant",ipa:"/rɪˈlʌk.tənt/",pos:"adjective",def:"Unwilling to do something, and showing it.",ex:"He was reluctant to share the bad news.",note:"Followed by to + verb: reluctant to agree."},
+ {id:"i2",w:"thorough",ipa:"/ˈθɜːr.oʊ/",pos:"adjective",def:"Complete, with careful attention to every detail.",ex:"She gave the report a thorough review.",note:"Two syllables; the gh is silent."},
+ {id:"i3",w:"cope",ipa:"/koʊp/",pos:"verb",def:"To manage a difficult situation without giving up.",ex:"It's hard to cope with so many deadlines.",note:"Cope with something — the preposition is fixed."},
+ {id:"i4",w:"outcome",ipa:"/ˈaʊt.kʌm/",pos:"noun",def:"The final result of a process or event.",ex:"Nobody expected that outcome.",note:"More neutral than result; common in reports."},
+ {id:"i5",w:"tedious",ipa:"/ˈtiː.di.əs/",pos:"adjective",def:"Boring because it goes on too long.",ex:"Filling in these forms is tedious work.",note:"You are bored; the task is tedious."},
+ {id:"i6",w:"acknowledge",ipa:"/əkˈnɑː.lɪdʒ/",pos:"verb",def:"To admit something is true, or show you noticed it.",ex:"He acknowledged the mistake straight away.",note:"Also used for replying: acknowledge an email."},
+ {id:"i7",w:"feasible",ipa:"/ˈfiː.zə.bəl/",pos:"adjective",def:"Possible to do in practice.",ex:"Is that deadline feasible?",note:"Feasible = can be done. Plausible = sounds true."},
+ {id:"i8",w:"deliberately",ipa:"/dɪˈlɪb.ər.ət.li/",pos:"adverb",def:"On purpose, not by accident.",ex:"She deliberately left her name off the list.",note:"The opposite is accidentally."},
+ {id:"i9",w:"setback",ipa:"/ˈset.bæk/",pos:"noun",def:"A problem that delays progress already made.",ex:"The rain was a major setback for the builders.",note:"Suffer or face a setback."},
+ {id:"i10",w:"resent",ipa:"/rɪˈzent/",pos:"verb",def:"To feel quiet anger about something unfair.",ex:"He resented being left out of the decision.",note:"Takes a noun or -ing form, never to + verb."},
+ {id:"i11",w:"vague",ipa:"/veɪɡ/",pos:"adjective",def:"Not clear or exact enough to be useful.",ex:"His answer was so vague that nobody understood it.",note:"Rhymes with plague; the u is silent."},
+ {id:"i12",w:"prone",ipa:"/proʊn/",pos:"adjective",def:"Likely to do or suffer something, usually bad.",ex:"He's prone to forgetting names.",note:"Prone to + noun or -ing."},
+ {id:"i13",w:"overwhelming",ipa:"/ˌoʊ.vərˈwel.mɪŋ/",pos:"adjective",def:"So great or strong that it is hard to deal with.",ex:"The response was overwhelming.",note:"Overwhelmed describes the person feeling it."},
+ {id:"i14",w:"reassure",ipa:"/ˌriː.əˈʃʊr/",pos:"verb",def:"To say something that removes someone's worry.",ex:"He reassured me that the flight was on time.",note:"Reassure someone that…, or reassure someone about…"},
+ {id:"i15",w:"eventually",ipa:"/ɪˈven.tʃu.ə.li/",pos:"adverb",def:"In the end, after a long time or delay.",ex:"Eventually they agreed on a price.",note:"Does not mean possibly — that trips up many learners."},
+ {id:"i16",w:"significant",ipa:"/sɪɡˈnɪf.ɪ.kənt/",pos:"adjective",def:"Large or important enough to notice.",ex:"There's been a significant drop in sales.",note:"Stronger than big when writing formally."},
+ {id:"i17",w:"struggle",ipa:"/ˈstrʌɡ.əl/",pos:"verb, noun",def:"To try hard at something difficult.",ex:"I'm struggling to finish on time.",note:"Struggle with a thing; struggle to do something."},
+ {id:"i18",w:"convenient",ipa:"/kənˈviː.ni.ənt/",pos:"adjective",def:"Easy to use or suiting your plans.",ex:"Would Thursday be convenient for you?",note:"About things and times, not about people."},
+ {id:"i19",w:"maintain",ipa:"/meɪnˈteɪn/",pos:"verb",def:"To keep something in good condition or keep it going.",ex:"It's expensive to maintain an old house.",note:"Also means to insist: he maintains he is innocent."},
+ {id:"i20",w:"assume",ipa:"/əˈsuːm/",pos:"verb",def:"To accept something as true without checking.",ex:"I assumed you'd already eaten.",note:"An assumption may well turn out wrong."},
+ {id:"i21",w:"reliable",ipa:"/rɪˈlaɪ.ə.bəl/",pos:"adjective",def:"Able to be trusted to work or turn up.",ex:"She's the most reliable person on the team.",note:"Rely on someone is the matching verb."},
+ {id:"i22",w:"emphasise",ipa:"/ˈem.fə.saɪz/",pos:"verb",def:"To give special importance to something.",ex:"She emphasised the need for accuracy.",note:"No preposition: emphasise something, not emphasise on."},
+ {id:"i23",w:"consequence",ipa:"/ˈkɑːn.sə.kwens/",pos:"noun",def:"A result of an action, often an unwanted one.",ex:"He didn't think about the consequences.",note:"As a consequence of = because of."},
+ {id:"i24",w:"gradually",ipa:"/ˈɡrædʒ.u.ə.li/",pos:"adverb",def:"Slowly, over a period of time.",ex:"The pain gradually faded.",note:"The opposite is suddenly or all at once."},
+ {id:"i25",w:"accurate",ipa:"/ˈæk.jər.ət/",pos:"adjective",def:"Correct in every detail.",ex:"Is this figure accurate?",note:"Accurate = correct. Precise = exact and detailed."},
+ {id:"i26",w:"persuade",ipa:"/pərˈsweɪd/",pos:"verb",def:"To make someone agree by giving reasons.",ex:"She persuaded me to stay another night.",note:"Persuade someone to do something."},
+ {id:"i27",w:"intention",ipa:"/ɪnˈten.ʃən/",pos:"noun",def:"What you plan to do.",ex:"I have no intention of resigning.",note:"Intention of doing, but intend to do."},
+ {id:"i28",w:"awkward",ipa:"/ˈɔːk.wərd/",pos:"adjective",def:"Uncomfortable, difficult or embarrassing.",ex:"There was an awkward silence.",note:"Used for situations, objects and moments alike."},
+ {id:"i29",w:"budget",ipa:"/ˈbʌdʒ.ɪt/",pos:"noun, verb",def:"The money available for something.",ex:"That's well over budget.",note:"Budget for something = plan money for it."},
+ {id:"i30",w:"anticipate",ipa:"/ænˈtɪs.ə.peɪt/",pos:"verb",def:"To expect something and prepare for it.",ex:"We didn't anticipate such a large crowd.",note:"Stronger than expect — it implies preparation."}
+],
+advanced:[
+ {id:"a1",w:"nuance",ipa:"/ˈnuː.ɑːns/",pos:"noun",def:"A very small difference in meaning, tone or feeling.",ex:"The translation loses the nuance of the original.",note:"Nuanced means carefully balanced."},
+ {id:"a2",w:"mitigate",ipa:"/ˈmɪt.ɪ.ɡeɪt/",pos:"verb",def:"To make something bad less severe.",ex:"Planting trees mitigates the summer heat.",note:"Mitigate a risk; you cannot mitigate a benefit."},
+ {id:"a3",w:"ostensibly",ipa:"/ɑːˈsten.sə.bli/",pos:"adverb",def:"According to what is claimed, though the truth may differ.",ex:"He resigned, ostensibly for family reasons.",note:"Signals quiet doubt about the stated reason."},
+ {id:"a4",w:"contentious",ipa:"/kənˈten.ʃəs/",pos:"adjective",def:"Likely to cause disagreement.",ex:"Funding is the most contentious issue on the agenda.",note:"About topics, not about people's moods."},
+ {id:"a5",w:"tenuous",ipa:"/ˈten.ju.əs/",pos:"adjective",def:"Weak, thin, and barely holding together.",ex:"The link between the two studies is tenuous.",note:"Common with link, grasp, connection."},
+ {id:"a6",w:"preclude",ipa:"/prɪˈkluːd/",pos:"verb",def:"To make something impossible in advance.",ex:"The budget precludes any new hires this year.",note:"Formal. Preclude someone from doing something."},
+ {id:"a7",w:"candid",ipa:"/ˈkæn.dɪd/",pos:"adjective",def:"Honest and direct, even when uncomfortable.",ex:"I'll be candid: the plan won't work.",note:"Warmer in tone than blunt."},
+ {id:"a8",w:"inadvertently",ipa:"/ˌɪn.ədˈvɜː.tənt.li/",pos:"adverb",def:"Without intending to.",ex:"She inadvertently copied the whole team.",note:"The formal opposite of deliberately."},
+ {id:"a9",w:"scrutiny",ipa:"/ˈskruː.tən.i/",pos:"noun",def:"Close, critical examination.",ex:"The proposal came under scrutiny from the board.",note:"Come under scrutiny; withstand scrutiny."},
+ {id:"a10",w:"galvanise",ipa:"/ˈɡæl.və.naɪz/",pos:"verb",def:"To shock a person or group into sudden action.",ex:"The report galvanised the neighbourhood.",note:"Spelled galvanize in American English."},
+ {id:"a11",w:"equivocate",ipa:"/ɪˈkwɪv.ə.keɪt/",pos:"verb",def:"To speak vaguely on purpose, so as not to commit.",ex:"Stop equivocating and give me a straight answer.",note:"The noun is equivocation."},
+ {id:"a12",w:"resilient",ipa:"/rɪˈzɪl.jənt/",pos:"adjective",def:"Able to recover quickly after difficulty.",ex:"Small businesses proved surprisingly resilient.",note:"Used for people, materials and systems."},
+ {id:"a13",w:"ubiquitous",ipa:"/juːˈbɪk.wɪ.təs/",pos:"adjective",def:"Found everywhere at once.",ex:"Screens have become ubiquitous in classrooms.",note:"Stronger than common — it means genuinely everywhere."},
+ {id:"a14",w:"pragmatic",ipa:"/præɡˈmæt.ɪk/",pos:"adjective",def:"Dealing with things practically rather than by theory.",ex:"She took a pragmatic view of the delay.",note:"Positive: it implies good judgement, not low standards."},
+ {id:"a15",w:"undermine",ipa:"/ˌʌn.dərˈmaɪn/",pos:"verb",def:"To weaken something gradually and often quietly.",ex:"Constant leaks undermined trust in the committee.",note:"The damage is slow, not sudden."},
+ {id:"a16",w:"discrepancy",ipa:"/dɪˈskrep.ən.si/",pos:"noun",def:"A difference between two things that should match.",ex:"There's a discrepancy between the two invoices.",note:"A discrepancy between A and B."},
+ {id:"a17",w:"tacit",ipa:"/ˈtæs.ɪt/",pos:"adjective",def:"Understood without being said.",ex:"There was a tacit agreement not to mention it.",note:"Tacit knowledge is knowledge you cannot easily explain."},
+ {id:"a18",w:"exacerbate",ipa:"/ɪɡˈzæs.ər.beɪt/",pos:"verb",def:"To make an already bad situation worse.",ex:"The new rules exacerbated the shortage.",note:"The precise opposite of mitigate."},
+ {id:"a19",w:"salient",ipa:"/ˈseɪ.li.ənt/",pos:"adjective",def:"Most noticeable or most important.",ex:"Let me summarise the salient points.",note:"Common in analysis and argument."},
+ {id:"a20",w:"corroborate",ipa:"/kəˈrɑːb.ə.reɪt/",pos:"verb",def:"To support a claim with further evidence.",ex:"Two witnesses corroborated his account.",note:"Evidence corroborates; people corroborate too."},
+ {id:"a21",w:"innocuous",ipa:"/ɪˈnɑːk.ju.əs/",pos:"adjective",def:"Harmless, though it may not look it.",ex:"It seemed an innocuous question at the time.",note:"Often used just before revealing it was not harmless."},
+ {id:"a22",w:"prerequisite",ipa:"/ˌpriːˈrek.wə.zɪt/",pos:"noun",def:"Something required before something else can happen.",ex:"Trust is a prerequisite for any real collaboration.",note:"A prerequisite for something, or a prerequisite to doing it."},
+ {id:"a23",w:"unequivocal",ipa:"/ˌʌn.ɪˈkwɪv.ə.kəl/",pos:"adjective",def:"Leaving no possible doubt.",ex:"The answer was an unequivocal no.",note:"The opposite of the verb equivocate."},
+ {id:"a24",w:"attrition",ipa:"/əˈtrɪʃ.ən/",pos:"noun",def:"Gradual loss or wearing down over time.",ex:"The team shrank through attrition rather than layoffs.",note:"A war of attrition is won by outlasting, not striking."},
+ {id:"a25",w:"paradoxical",ipa:"/ˌper.əˈdɑːk.sɪ.kəl/",pos:"adjective",def:"Seeming to contradict itself yet still true.",ex:"It's paradoxical that adding lanes can worsen traffic.",note:"Not the same as impossible — paradoxes can be real."},
+ {id:"a26",w:"circumvent",ipa:"/ˌsɜːr.kəmˈvent/",pos:"verb",def:"To get around a rule or obstacle rather than face it.",ex:"They circumvented the ban by registering abroad.",note:"Implies cleverness, and sometimes bad faith."},
+ {id:"a27",w:"cursory",ipa:"/ˈkɜːr.sər.i/",pos:"adjective",def:"Quick and without attention to detail.",ex:"A cursory glance at the accounts shows the problem.",note:"The opposite of thorough."},
+ {id:"a28",w:"culminate",ipa:"/ˈkʌl.mə.neɪt/",pos:"verb",def:"To reach a final and highest point.",ex:"The campaign culminated in a march through the city.",note:"Culminate in something — never culminate to."},
+ {id:"a29",w:"disparate",ipa:"/ˈdɪs.pər.ət/",pos:"adjective",def:"So different that comparison is hard.",ex:"The report pulls together disparate sources.",note:"Not the same as desperate, despite the spelling."},
+ {id:"a30",w:"forestall",ipa:"/fɔːrˈstɔːl/",pos:"verb",def:"To act early so something cannot happen.",ex:"She answered the objection to forestall a long debate.",note:"Prevention by acting first, not by blocking."}
+]};
+
+const GRAMMAR = {
+beginner:[
+ {id:"g1",t:"a, an and the",
+  body:["Use <b>a</b> or <b>an</b> the first time you mention something, when it is one of many. Use <b>an</b> before a vowel <i>sound</i>: an hour, an email — but a university, because that begins with a /j/ sound.",
+        "Use <b>the</b> when both speakers know exactly which one is meant: because it was mentioned before, because there is only one, or because the situation makes it obvious.",
+        "Use no article for plural or uncountable nouns spoken about in general: <i>Children learn fast. Water is free.</i>"],
+  ex:[["I bought a book. The book was about birds.","First mention, then second mention."],
+      ["She's an honest person.","An before a vowel sound — the h is silent."],
+      ["Close the door, please.","Only one door matters here."],
+      ["Dogs need exercise.","A general truth, so no article."]],
+  qs:[{s:"I saw ___ cat in the garden. ___ cat was black.",o:["a / The","the / A","a / A","the / The"],c:0,w:"First mention takes a; the second mention takes the."},
+      {s:"He waited for ___ hour.",o:["a","an","the","—"],c:1,w:"Hour begins with a vowel sound because the h is silent."},
+      {s:"___ children in my class are very noisy.",o:["A","An","The","—"],c:2,w:"A specific group, so the is right."},
+      {s:"My brother is ___ engineer.",o:["a","an","the","—"],c:1,w:"Jobs take a or an, and engineer starts with a vowel sound."},
+      {s:"___ rice is grown all over Asia.",o:["A","The","—","An"],c:2,w:"An uncountable noun spoken about in general takes no article."}]},
+ {id:"g2",t:"Present simple vs present continuous",
+  body:["The <b>present simple</b> (I work, she works) is for habits, routines, timetables and general truths. Remember the -s on he, she and it.",
+        "The <b>present continuous</b> (I am working) is for right now, or a temporary period around now.",
+        "State verbs — know, want, believe, belong, need, understand — describe conditions rather than actions and normally stay simple even when you mean now."],
+  ex:[["I drink coffee every morning.","A habit."],
+      ["I'm drinking tea at the moment.","Happening now."],
+      ["She's living with her parents until June.","Temporary."],
+      ["I know the answer.","State verb — not I am knowing."]],
+  qs:[{s:"Quiet — the baby ___.",o:["sleeps","is sleeping","slept","sleep"],c:1,w:"It is happening at this moment."},
+      {s:"The train ___ at 6.15 every evening.",o:["is leaving","leaves","leave","is leave"],c:1,w:"Timetables take the present simple."},
+      {s:"I ___ what you mean.",o:["am understanding","understand","understands","am understand"],c:1,w:"Understand is a state verb."},
+      {s:"He usually walks to work, but this week he ___ the bus.",o:["takes","is taking","take","took"],c:1,w:"This week marks a temporary change."},
+      {s:"My sister ___ in a bank.",o:["work","works","working","are working"],c:1,w:"Third person singular adds -s in the present simple."}]},
+ {id:"g3",t:"The past simple",
+  body:["Regular verbs add <b>-ed</b>: walk → walked. If the verb ends in a consonant plus <i>y</i>, it becomes <i>-ied</i>: study → studied.",
+        "Irregular verbs change shape and must be learned one by one: go → went, buy → bought, take → took, see → saw.",
+        "In questions and negatives <b>did</b> carries the tense, so the main verb returns to its base form: <i>Did you go? I didn't go.</i> Never <i>didn't went</i>."],
+  ex:[["We watched a film last night.","Regular -ed."],
+      ["She bought a new phone.","Irregular: buy → bought."],
+      ["Did you see the message?","Did + base form."],
+      ["They didn't come to the party.","Not didn't came."]],
+  qs:[{s:"I ___ my homework before dinner.",o:["finish","finished","did finished","was finish"],c:1,w:"A completed past action."},
+      {s:"___ she call you yesterday?",o:["Did","Does","Was","Has"],c:0,w:"Did forms past simple questions."},
+      {s:"He didn't ___ the email.",o:["received","receive","receives","receiving"],c:1,w:"After didn't the verb returns to base form."},
+      {s:"They ___ to Delhi last summer.",o:["goed","gone","went","going"],c:2,w:"Go is irregular: went."},
+      {s:"She ___ medicine for six years.",o:["studyed","studied","studed","studies"],c:1,w:"Consonant + y becomes -ied."}]},
+ {id:"g4",t:"there is, there are, have got",
+  body:["<b>There is</b> and <b>there are</b> announce that something exists. Singular and uncountable take <i>is</i>; plurals take <i>are</i>: <i>There is milk. There are two shops.</i>",
+        "In the past they become <i>there was</i> and <i>there were</i>. With will, use <i>there will be</i> for both.",
+        "<b>Have got</b> shows possession in British speech: <i>I've got a car.</i> The American equivalent is simply <i>have</i>. Questions use <i>Have you got…?</i> or <i>Do you have…?</i> — never mix the two."],
+  ex:[["There's a problem with the heating.","Singular."],
+      ["There were twenty people at the meeting.","Plural, past."],
+      ["I've got two brothers.","Possession."],
+      ["Have you got a minute?","Standard spoken question."]],
+  qs:[{s:"___ any milk in the fridge?",o:["Is there","Are there","There is","Have there"],c:0,w:"Milk is uncountable, so use is."},
+      {s:"___ three messages for you.",o:["There is","There are","It is","They are"],c:1,w:"Three messages is plural."},
+      {s:"___ you got a pen?",o:["Do","Have","Are","Did"],c:1,w:"Have got questions start with have."},
+      {s:"Last year ___ a festival in this park.",o:["there is","there was","there were","it was"],c:1,w:"Singular and past: there was."},
+      {s:"She ___ got two cats.",o:["have","has","is","does"],c:1,w:"Third person singular uses has got."}]},
+ {id:"g5",t:"Countable and uncountable nouns",
+  body:["<b>Countable</b> nouns can be counted and made plural: one chair, two chairs. <b>Uncountable</b> nouns cannot: water, rice, money, information, advice, furniture, news, luggage.",
+        "Use <b>many</b> and <b>a few</b> with countables; <b>much</b> and <b>a little</b> with uncountables. <b>A lot of</b> works with both and is safest in speech.",
+        "To count an uncountable noun, borrow a container or unit: <i>a piece of advice, two slices of bread, a bottle of water.</i>"],
+  ex:[["How many chairs do we need?","Countable."],
+      ["How much time do we have?","Uncountable."],
+      ["She gave me some useful information.","Never informations."],
+      ["I'd like two pieces of luggage checked in.","Counted with a unit word."]],
+  qs:[{s:"How ___ sugar do you take?",o:["many","much","few","number of"],c:1,w:"Sugar is uncountable."},
+      {s:"There isn't ___ furniture in the flat.",o:["many","a few","much","several"],c:2,w:"Furniture is uncountable in English."},
+      {s:"He gave me three ___ of advice.",o:["advices","pieces","numbers","parts"],c:1,w:"Advice is counted in pieces."},
+      {s:"Only ___ people came.",o:["a little","much","a few","less"],c:2,w:"People is countable, so a few."},
+      {s:"The ___ was very bad yesterday.",o:["news","new","newses","news were"],c:0,w:"News looks plural but takes a singular verb."}]},
+ {id:"g6",t:"Prepositions of time and place",
+  body:["Time: <b>at</b> for clock times and festivals (at 6pm, at night), <b>on</b> for days and dates (on Monday, on 3 May), <b>in</b> for longer periods (in June, in 2026, in the morning).",
+        "Place: <b>at</b> for a point (at the door, at the station), <b>on</b> for a surface or line (on the table, on the wall, on the bus), <b>in</b> for an enclosed space (in the box, in the car, in Mumbai).",
+        "Some pairs are simply fixed and worth memorising: <i>in the morning</i> but <i>at night</i>; <i>on the bus</i> but <i>in the car</i>; <i>at home</i>, <i>at work</i>, <i>in bed</i>."],
+  ex:[["The meeting is at 9 on Tuesday.","Clock time, then day."],
+      ["I was born in 1998.","Year."],
+      ["Your keys are on the table.","Surface."],
+      ["She's in the kitchen.","Enclosed space."]],
+  qs:[{s:"I'll see you ___ Friday.",o:["at","on","in","to"],c:1,w:"Days take on."},
+      {s:"He works ___ night.",o:["in","on","at","by"],c:2,w:"At night is a fixed phrase."},
+      {s:"The photo is ___ the wall.",o:["in","at","on","over"],c:2,w:"A surface takes on."},
+      {s:"We arrived ___ the airport late.",o:["at","in","on","to"],c:0,w:"An airport is treated as a point."},
+      {s:"She's lived in Pune ___ 2015.",o:["in","from","since","at"],c:2,w:"Since marks a starting point in time."}]},
+ {id:"g7",t:"Adjectives and their order",
+  body:["Adjectives come before the noun and never take a plural -s: <i>two red cars</i>, never <i>two reds cars</i>.",
+        "When several adjectives stack up, English follows a fixed order: opinion, size, age, shape, colour, origin, material, purpose. <i>A lovely little old round brown Italian wooden dining table.</i> You will rarely use more than three.",
+        "Adjectives ending in <b>-ed</b> describe how a person feels; those ending in <b>-ing</b> describe the thing causing the feeling. <i>I was bored. The film was boring.</i>"],
+  ex:[["A beautiful old house.","Opinion before age."],
+      ["A small black bag.","Size before colour."],
+      ["I'm confused by this form.","The person feels it."],
+      ["This form is confusing.","The thing causes it."]],
+  qs:[{s:"She bought ___.",o:["a leather black jacket","a black leather jacket","a jacket black leather","black a leather jacket"],c:1,w:"Colour comes before material."},
+      {s:"The lecture was very ___.",o:["interested","interesting","interest","interestly"],c:1,w:"The thing causing the feeling takes -ing."},
+      {s:"We were ___ by the news.",o:["shocking","shock","shocked","shockly"],c:2,w:"The people feeling it take -ed."},
+      {s:"He has two ___ dogs.",o:["bigs","big","bigger","biggest"],c:1,w:"Adjectives never take a plural ending."},
+      {s:"It was ___.",o:["a wooden lovely spoon","a lovely wooden spoon","a spoon lovely wooden","wooden a lovely spoon"],c:1,w:"Opinion comes before material."}]},
+ {id:"g8",t:"Talking about the future",
+  body:["<b>will</b> is for decisions made as you speak, predictions and promises: <i>I'll get it. It'll rain later.</i>",
+        "<b>going to</b> is for plans already made and for predictions with visible evidence: <i>We're going to paint the kitchen. Look — it's going to fall.</i>",
+        "The <b>present continuous</b> covers fixed arrangements with a time and place: <i>I'm meeting Sara at six.</i> The <b>present simple</b> covers timetables: <i>The flight leaves at nine.</i>"],
+  ex:[["That's the phone — I'll answer it.","Decision made now."],
+      ["We're going to move in August.","Plan already made."],
+      ["I'm seeing the dentist on Thursday.","Fixed arrangement."],
+      ["The shop opens at ten.","Timetable."]],
+  qs:[{s:"Don't worry, I ___ help you.",o:["am going to","will","am","would"],c:1,w:"A promise made at the moment of speaking takes will."},
+      {s:"Look at those clouds — it ___ rain.",o:["will","is going to","goes to","shall"],c:1,w:"Visible evidence points to going to."},
+      {s:"I ___ my cousin tomorrow at noon.",o:["meet","will meet","am meeting","meets"],c:2,w:"A fixed arrangement takes the present continuous."},
+      {s:"The train ___ at 6.40.",o:["is arriving","arrives","will arrive","arrive"],c:1,w:"Timetables take the present simple."},
+      {s:"They've bought the tickets — they ___ to Goa.",o:["will fly","are going to fly","fly","flew"],c:1,w:"A plan already decided takes going to."}]}
+],
+intermediate:[
+ {id:"g9",t:"Present perfect vs past simple",
+  body:["Use the <b>past simple</b> when the time is finished and usually stated: yesterday, last week, in 2019, an hour ago.",
+        "Use the <b>present perfect</b> (have/has + past participle) when the period is still open, or the past event matters right now and you don't say when.",
+        "<b>For</b> introduces a length of time; <b>since</b> introduces a starting point. <b>Already, yet, just, ever, never</b> all sit naturally with the present perfect."],
+  ex:[["I saw her on Tuesday.","Finished time."],
+      ["I've seen that film twice.","Experience, time not stated."],
+      ["We've lived here since 2020.","Starting point."],
+      ["She's worked here for six months.","Length."]],
+  qs:[{s:"I ___ my keys — I can't get in.",o:["lost","have lost","was losing","had lost"],c:1,w:"The past action has a present consequence."},
+      {s:"Shakespeare ___ 37 plays.",o:["has written","wrote","has wrote","writes"],c:1,w:"His life is finished, so past simple."},
+      {s:"We've been waiting ___ half an hour.",o:["since","for","from","during"],c:1,w:"A length of time takes for."},
+      {s:"___ you ever ___ sushi?",o:["Did / eat","Have / eaten","Have / ate","Did / eaten"],c:1,w:"Ever asks about experience at any time."},
+      {s:"She hasn't finished ___.",o:["already","still","yet","just"],c:2,w:"Yet sits at the end of negatives and questions."}]},
+ {id:"g10",t:"Conditionals: zero, first and second",
+  body:["<b>Zero</b> (if + present, present) states something always true: <i>If you heat water to 100°C, it boils.</i>",
+        "<b>First</b> (if + present, will + verb) talks about a real future possibility. Never put <i>will</i> in the if-clause.",
+        "<b>Second</b> (if + past, would + verb) talks about something imaginary or unlikely now. With <i>be</i>, formal English uses <i>were</i> for every subject."],
+  ex:[["If you press this, the light comes on.","Always true."],
+      ["If you finish early, I'll call you.","Real possibility."],
+      ["If I won the lottery, I'd move abroad.","Imaginary."],
+      ["If I were you, I'd apologise.","Fixed advice phrase."]],
+  qs:[{s:"If you ___ me, I'll help you.",o:["will ask","ask","asked","would ask"],c:1,w:"The if-clause takes the present simple."},
+      {s:"If I ___ taller, I would play basketball.",o:["am","was being","were","will be"],c:2,w:"Second conditional; were is standard after if."},
+      {s:"Water ___ if you put it in the freezer.",o:["would freeze","freezes","will froze","froze"],c:1,w:"A general fact takes the zero conditional."},
+      {s:"If she had a car, she ___ to work.",o:["will drive","drives","would drive","drove"],c:2,w:"Past tense pairs with would."},
+      {s:"Unless it ___, we'll walk.",o:["will rain","rains","rained","would rain"],c:1,w:"Unless behaves like if not and takes the present."}]},
+ {id:"g11",t:"Reported speech",
+  body:["When you report what someone said earlier, the tense usually steps back one: present → past, past → past perfect, will → would, can → could.",
+        "Words pointing at the here and now shift too: today → that day, tomorrow → the next day, this → that, here → there.",
+        "Reported questions keep statement word order and drop do/does/did. Yes/no questions take <b>if</b> or <b>whether</b>."],
+  ex:[["'I'm tired.' → She said she was tired.","Present steps back."],
+      ["'I'll call you.' → He said he would call me.","Will becomes would."],
+      ["'Where do you work?' → She asked where I worked.","No did."],
+      ["'Did you eat?' → He asked if I had eaten.","Yes/no takes if."]],
+  qs:[{s:"'I can swim.' → He said he ___ swim.",o:["can","could","would","can't"],c:1,w:"Can steps back to could."},
+      {s:"'We're leaving tomorrow.' → They said they were leaving ___.",o:["tomorrow","the next day","yesterday","that night"],c:1,w:"Tomorrow shifts once the moment has passed."},
+      {s:"She asked me where ___.",o:["did I live","I lived","do I live","I did live"],c:1,w:"Reported questions use statement order."},
+      {s:"'Are you coming?' → He asked ___ I was coming.",o:["that","what","if","which"],c:2,w:"Yes/no questions take if or whether."},
+      {s:"'Don't touch it.' → She told me ___ touch it.",o:["don't","not to","to not","didn't"],c:1,w:"Negative commands are reported with told someone not to."}]},
+ {id:"g12",t:"Modals of obligation and permission",
+  body:["<b>Must</b> expresses obligation the speaker feels themselves; <b>have to</b> expresses obligation coming from outside — a rule, a boss, a law.",
+        "<b>Mustn't</b> means it is forbidden. <b>Don't have to</b> means it is not necessary. These are completely different, and confusing them changes the meaning entirely.",
+        "<b>Can, could, may</b> ask permission, rising in formality. <b>Should</b> and <b>ought to</b> give advice; <b>had better</b> warns of a bad consequence."],
+  ex:[["I must remember to call her.","Personal obligation."],
+      ["I have to wear a uniform at work.","External rule."],
+      ["You mustn't park here.","Forbidden."],
+      ["You don't have to come.","Optional."]],
+  qs:[{s:"Passengers ___ smoke on board.",o:["don't have to","mustn't","needn't","shouldn't have"],c:1,w:"Smoking is forbidden, so mustn't."},
+      {s:"It's Sunday, so we ___ get up early.",o:["mustn't","don't have to","can't","shouldn't"],c:1,w:"It is simply not necessary."},
+      {s:"___ I borrow your laptop for an hour?",o:["Must","Should","Could","Would"],c:2,w:"Could is the normal polite request."},
+      {s:"You ___ leave now or you'll miss it.",o:["had better","would better","should better","have better"],c:0,w:"Had better warns of a consequence."},
+      {s:"In my last job I ___ work weekends.",o:["must","had to","have to","mustn't"],c:1,w:"Must has no past form; use had to."}]},
+ {id:"g13",t:"used to, would, be used to",
+  body:["<b>Used to + verb</b> describes a past habit or state that is no longer true: <i>I used to smoke.</i> In questions and negatives it loses the d: <i>Did you use to…?</i>",
+        "<b>Would + verb</b> also describes repeated past actions in storytelling, but it cannot describe past states. <i>We would walk to school</i> is fine; <i>I would live in Delhi</i> is not.",
+        "<b>Be used to + noun or -ing</b> is a different structure entirely. It means something is now familiar: <i>I'm used to the noise. She's getting used to working nights.</i>"],
+  ex:[["I used to play cricket every Sunday.","Past habit, now stopped."],
+      ["There used to be a cinema here.","Past state."],
+      ["Every summer we would visit my grandmother.","Repeated past action."],
+      ["He isn't used to driving on the left.","Familiarity, not a past habit."]],
+  qs:[{s:"Did you ___ live in Chennai?",o:["used to","use to","using to","are used to"],c:1,w:"After did, the d disappears."},
+      {s:"I can't sleep — I'm not used to ___ so early.",o:["get up","got up","getting up","get"],c:2,w:"Be used to takes a noun or -ing form."},
+      {s:"There ___ be a bakery on this corner.",o:["used to","use to","would","is used to"],c:0,w:"A past state needs used to, not would."},
+      {s:"When we were children we ___ swim in the river every day.",o:["are used to","used","would","use to"],c:2,w:"Would works for repeated past actions in a story."},
+      {s:"After a month she ___ the new system.",o:["used to","got used to","would","use to"],c:1,w:"Get used to describes becoming familiar."}]},
+ {id:"g14",t:"Relative clauses",
+  body:["<b>Defining</b> clauses identify which one you mean and take no commas: <i>The man who fixed my car is retiring.</i> Use who for people, which for things, that for either.",
+        "<b>Non-defining</b> clauses add extra information about something already identified, and they need commas. <i>That</i> is never allowed here: <i>My brother, who lives in Leeds, is a nurse.</i>",
+        "In defining clauses you may drop the pronoun when it is the object: <i>The film (that) we watched was long.</i> You cannot drop it when it is the subject."],
+  ex:[["The book that I lent you is overdue.","Object — that can be dropped."],
+      ["The woman who called wants a refund.","Subject — keep who."],
+      ["Delhi, which I visited last year, is enormous.","Extra information, commas needed."],
+      ["That's the shop where I bought it.","Where replaces in which."]],
+  qs:[{s:"The house ___ we bought needs a new roof.",o:["who","whose","that","where"],c:2,w:"That refers to a thing in a defining clause."},
+      {s:"My aunt, ___ lives in Kochi, is visiting.",o:["that","who","which","whom"],c:1,w:"Non-defining clauses about people take who, never that."},
+      {s:"That's the teacher ___ daughter won the prize.",o:["who","which","whose","that"],c:2,w:"Whose shows possession."},
+      {s:"In which sentence can the pronoun be left out?",o:["The man who called was rude.","The email that arrived was spam.","The email that I sent was long.","The dog which barks is his."],c:2,w:"The pronoun is the object there, so it can be dropped."},
+      {s:"Do you remember the year ___ we moved?",o:["which","when","where","who"],c:1,w:"When refers to a time."}]},
+ {id:"g15",t:"Comparatives and superlatives",
+  body:["Short adjectives add <b>-er</b> and <b>-est</b>: cheap, cheaper, the cheapest. Adjectives of two syllables ending in -y change to -ier, -iest: happy, happier.",
+        "Longer adjectives take <b>more</b> and <b>the most</b>: expensive, more expensive, the most expensive. A few are irregular: good/better/best, bad/worse/worst, far/further/furthest.",
+        "Compare with <b>than</b>. For equality use <b>as … as</b>: <i>as cheap as</i>. To show change over time, double the comparative: <i>hotter and hotter</i>. For linked change, use <i>the … the …</i>: <i>The sooner, the better.</i>"],
+  ex:[["This route is quicker than the other one.","Short adjective."],
+      ["It's the most interesting book I've read.","Long adjective."],
+      ["Her English is as good as mine.","Equality."],
+      ["The more you practise, the easier it gets.","Linked change."]],
+  qs:[{s:"Today is ___ than yesterday.",o:["hotter","more hot","hottest","the hotter"],c:0,w:"Short adjectives take -er, doubling the final consonant."},
+      {s:"This is ___ film of the year.",o:["the worse","worst","the worst","more bad"],c:2,w:"Bad is irregular and superlatives take the."},
+      {s:"He isn't ___ his brother.",o:["as tall as","so tall than","taller as","as tall than"],c:0,w:"Equality uses as + adjective + as."},
+      {s:"The exam was ___ than I expected.",o:["difficult","more difficult","most difficult","difficulter"],c:1,w:"Long adjectives take more."},
+      {s:"___ we leave, ___ we'll arrive.",o:["Sooner / earlier","The sooner / the earlier","More soon / more early","The soonest / the earliest"],c:1,w:"Linked change uses the … the …"}]},
+ {id:"g16",t:"Gerunds and infinitives",
+  body:["Some verbs are followed by <b>-ing</b>: enjoy, avoid, finish, suggest, mind, practise, consider, miss. <i>I enjoy cooking.</i>",
+        "Others are followed by <b>to + verb</b>: want, decide, hope, promise, agree, manage, offer, refuse, learn. <i>She decided to leave.</i>",
+        "After prepositions, always use -ing: <i>good at swimming, interested in learning, instead of waiting</i>. A few verbs take both with a change of meaning: <i>I stopped smoking</i> (quit) versus <i>I stopped to smoke</i> (paused in order to)."],
+  ex:[["I don't mind waiting.","Mind takes -ing."],
+      ["They agreed to meet on Friday.","Agree takes to."],
+      ["She's interested in studying law.","After a preposition."],
+      ["I remembered to lock the door.","Remembered first, then acted."]],
+  qs:[{s:"He avoided ___ the question.",o:["to answer","answering","answer","answered"],c:1,w:"Avoid is always followed by -ing."},
+      {s:"We hope ___ you soon.",o:["seeing","to see","see","saw"],c:1,w:"Hope takes the infinitive."},
+      {s:"She's good at ___ problems.",o:["solve","to solve","solving","solved"],c:2,w:"After a preposition, use -ing."},
+      {s:"I stopped ___ a coffee on the way.",o:["buying","to buy","buy","bought"],c:1,w:"Stopped to buy means paused in order to buy."},
+      {s:"They refused ___ the offer.",o:["accepting","accept","to accept","accepted"],c:2,w:"Refuse takes the infinitive."}]}
+],
+advanced:[
+ {id:"g17",t:"Third and mixed conditionals",
+  body:["The third conditional (if + past perfect, would have + past participle) describes a past that did not happen: <i>If I had left earlier, I wouldn't have missed the train.</i> Both halves are unreal.",
+        "<b>Mixed conditionals</b> join a past condition to a present result: <i>If I had taken that job, I'd be living in Berlin now.</i>",
+        "Related regret structures: <b>should have</b> + past participle criticises a past choice, <b>wish</b> + past perfect expresses regret, and <b>if only</b> intensifies it."],
+  ex:[["If we had booked earlier, it would have been cheaper.","Neither happened."],
+      ["If she had studied medicine, she'd be a doctor today.","Past cause, present result."],
+      ["You should have told me.","Criticism of a past choice."],
+      ["I wish I hadn't said that.","Regret about a finished action."]],
+  qs:[{s:"If they ___ the warning, the accident wouldn't have happened.",o:["heard","had heard","would hear","have heard"],c:1,w:"The if-clause takes the past perfect."},
+      {s:"I wish I ___ harder for that exam.",o:["studied","had studied","would study","have studied"],c:1,w:"Regret about a finished action uses wish + past perfect."},
+      {s:"If he hadn't moved to Canada, we ___ still neighbours.",o:["would have been","would be","will be","had been"],c:1,w:"A mixed conditional: past cause, present result."},
+      {s:"You ___ have locked the door. Now anyone can walk in.",o:["should","would","could","must"],c:0,w:"Should have criticises a past choice."},
+      {s:"If only I ___ the email before replying.",o:["read","had read","would read","have read"],c:1,w:"If only about the past takes the past perfect."}]},
+ {id:"g18",t:"The passive, and when it earns its place",
+  body:["Form the passive with <b>be</b> in the right tense plus the past participle: is built, was built, has been built, will be built, is being built.",
+        "The passive is the better choice when the doer is unknown, obvious or irrelevant, or when you want the receiver of the action at the front of the sentence.",
+        "Use <b>by</b> only when the doer adds information. Reporting structures — <i>It is thought that…, He is said to be…</i> — are a formal passive worth having."],
+  ex:[["My wallet was stolen on the train.","Doer unknown."],
+      ["The results will be announced on Friday.","Doer irrelevant."],
+      ["The report is being reviewed.","Deliberately impersonal."],
+      ["The temple is believed to date from 1200.","Formal reporting passive."]],
+  qs:[{s:"The parcel ___ yesterday.",o:["was delivered","delivered","is delivered","has delivering"],c:0,w:"Past passive: was + participle."},
+      {s:"The road ___ at the moment.",o:["is repaired","repairs","is being repaired","was repairing"],c:2,w:"Present continuous passive."},
+      {s:"Which uses the passive well?",o:["The window was broken by somebody.","Somebody broke the window.","The window was broken during the night.","By somebody the window was broken."],c:2,w:"Unknown doer and no pointless by-phrase."},
+      {s:"Nothing ___ about the complaint so far.",o:["has done","has been done","was being done","is doing"],c:1,w:"Present perfect passive."},
+      {s:"It ___ that the talks will resume.",o:["is expected","expects","has expecting","is expecting"],c:0,w:"A formal reporting passive."}]},
+ {id:"g19",t:"Inversion for emphasis",
+  body:["In formal or literary English, certain negative and limiting expressions at the front of a sentence force subject and auxiliary to swap places, as in a question.",
+        "This happens after <b>never, rarely, seldom, hardly, no sooner, not only, little, at no time</b> and <b>under no circumstances</b>.",
+        "It also appears in formal conditionals where <i>if</i> disappears: <i>Had I known, I would have called. Should you need help, ask. Were he to refuse, we'd reconsider.</i>"],
+  ex:[["Rarely does he arrive on time.","Rarely + does + subject."],
+      ["Not only did she win, but she broke the record.","Not only inverts the first clause."],
+      ["No sooner had we sat down than the phone rang.","No sooner pairs with than."],
+      ["Should you change your mind, let me know.","Formal first conditional."]],
+  qs:[{s:"Never ___ such a beautiful sunset.",o:["I have seen","have I seen","I saw","did I saw"],c:1,w:"Never at the front inverts auxiliary and subject."},
+      {s:"Hardly ___ the door when the bell rang again.",o:["I had closed","had I closed","did I closed","I closed"],c:1,w:"Hardly triggers inversion."},
+      {s:"___ I known about the delay, I'd have waited.",o:["If","Had","Have","Should"],c:1,w:"Had replaces if had in formal style."},
+      {s:"Under no circumstances ___ this door be left open.",o:["should","should it","must not","it should"],c:0,w:"The modal comes before the subject."},
+      {s:"No sooner had they left ___ it started to rain.",o:["when","than","then","that"],c:1,w:"No sooner is always followed by than."}]},
+ {id:"g20",t:"Perfect modals: speculating about the past",
+  body:["<b>Must have</b> + past participle expresses near certainty about the past: <i>She must have left already.</i> The negative is <b>can't have</b>, not mustn't have.",
+        "<b>Might have, may have, could have</b> express possibility: <i>He may have forgotten.</i> <b>Could have</b> also describes an unused past ability or opportunity: <i>You could have told me.</i>",
+        "<b>Should have</b> and <b>ought to have</b> describe what did not happen but ought to have. <b>Needn't have</b> means it was done unnecessarily; <b>didn't need to</b> means it was not done at all."],
+  ex:[["The lights are off — they must have gone out.","Near certainty."],
+      ["She can't have finished already.","Certainty in the negative."],
+      ["He might have missed the bus.","Possibility."],
+      ["We needn't have rushed; the train was late.","Done, but unnecessary."]],
+  qs:[{s:"His car isn't here. He ___ home.",o:["must go","must have gone","should go","can have gone"],c:1,w:"A confident deduction about the past."},
+      {s:"She ___ seen us — she was facing the other way.",o:["mustn't have","can't have","shouldn't have","needn't have"],c:1,w:"Negative certainty uses can't have."},
+      {s:"You ___ asked me. I'd have helped.",o:["should have","must have","can have","needn't have"],c:0,w:"A criticism of what was not done."},
+      {s:"We ___ booked — the restaurant was empty.",o:["must have","needn't have","should have","can't have"],c:1,w:"It was done, but proved unnecessary."},
+      {s:"I don't know where he is. He ___ working late.",o:["must be","might be","can be","should be"],c:1,w:"Might expresses uncertain possibility."}]},
+ {id:"g21",t:"Participle clauses",
+  body:["A participle clause replaces a longer clause when both halves share a subject, tightening formal writing. The present participle carries an active meaning: <i>Walking home, I noticed the door was open.</i>",
+        "The past participle carries a passive meaning: <i>Written in 1890, the novel still sells well.</i>",
+        "<b>Having</b> + past participle shows one action was complete before the next: <i>Having finished the report, she went home.</i> The subjects must match, or the sentence dangles: <i>Walking home, the rain started</i> is wrong, because the rain was not walking."],
+  ex:[["Opening the letter, he sat down.","Two actions, same subject."],
+      ["Built in 1890, the bridge is still in use.","Passive meaning."],
+      ["Having eaten, we went for a walk.","Sequence."],
+      ["Not knowing the way, I asked a passer-by.","Negative form."]],
+  qs:[{s:"___ the door, she noticed a note on the floor.",o:["Opened","Opening","To open","Having opened by"],c:1,w:"An active meaning takes the present participle."},
+      {s:"___ in Latin, the inscription took days to translate.",o:["Writing","Having written","Written","Write"],c:2,w:"A passive meaning takes the past participle."},
+      {s:"___ all the evidence, the committee reached a decision.",o:["Reviewing had","Having reviewed","Reviewed","Being reviewed"],c:1,w:"Having + participle shows the earlier completed action."},
+      {s:"Which sentence dangles?",o:["Turning the corner, I saw the shop.","Turning the corner, the shop came into view.","Having turned the corner, I saw the shop.","Exhausted, I sat down."],c:1,w:"The shop was not turning the corner, so the subjects do not match."},
+      {s:"___ what to say, he stayed silent.",o:["Not knowing","Don't knowing","Knowing not","Not known"],c:0,w:"Not goes before the participle."}]},
+ {id:"g22",t:"Cleft sentences and emphasis",
+  body:["A cleft sentence splits one idea in two so a chosen part can be stressed. The <b>it-cleft</b> highlights a noun phrase: <i>It was Anita who sent the email</i> — not anyone else.",
+        "The <b>wh-cleft</b> puts the emphasis at the end, where English naturally places new information: <i>What I need is a week off. What surprised me was the price.</i>",
+        "Variants include <i>All I want is…</i>, <i>The reason (why)… is that…</i>, and <i>The thing that bothers me is…</i> These are extremely common in careful speech and argument."],
+  ex:[["It was the delay that caused the complaint.","Highlights the delay."],
+      ["What I object to is the tone.","Emphasis falls at the end."],
+      ["All she did was ask a question.","Minimising cleft."],
+      ["The reason I called is that the date changed.","Reason cleft."]],
+  qs:[{s:"___ the noise that kept me awake.",o:["That was","It was","There was","What was"],c:1,w:"It-clefts begin with it was or it is."},
+      {s:"___ I don't understand is the pricing.",o:["That","It","What","Which"],c:2,w:"Wh-clefts begin with what."},
+      {s:"It was in 2019 ___ the factory closed.",o:["which","who","that","when that"],c:2,w:"After an it-cleft with a time phrase, use that."},
+      {s:"___ was his honesty.",o:["What impressed me","That impressed me","It impressed me","Which impressed me"],c:0,w:"A what-clause can serve as the subject."},
+      {s:"All ___ is a straight answer.",o:["what I want","I want","that I want it","I want it"],c:1,w:"All I want is — no extra pronoun."}]},
+ {id:"g23",t:"Hedging and academic caution",
+  body:["Careful writing rarely makes flat claims. <b>Hedges</b> mark how confident you are: <i>appears to, tends to, is likely to, suggests, may well, arguably, broadly speaking.</i>",
+        "Strength is a scale. <i>The data prove</i> is absolute; <i>the data suggest</i> is measured; <i>the data may indicate</i> is tentative. Choosing the wrong point on that scale is the commonest fault in advanced writing.",
+        "<b>Boosters</b> do the opposite and should be rationed: <i>clearly, undoubtedly, it is evident that.</i> Overusing them makes a weak argument sound defensive rather than strong."],
+  ex:[["The findings suggest a link between the two.","Measured claim."],
+      ["Costs tend to rise in the second year.","A pattern, not a law."],
+      ["This may well be the deciding factor.","Tentative but leaning."],
+      ["Arguably, the policy achieved the opposite.","Signals a defensible but contestable view."]],
+  qs:[{s:"Which is the most cautious?",o:["The results prove the theory.","The results confirm the theory.","The results appear to support the theory.","The results clearly show the theory is right."],c:2,w:"Appear to support is the weakest and most careful claim."},
+      {s:"Sales ___ to fall in January.",o:["tend","tends","are tending","tended always"],c:0,w:"Sales is plural, so tend."},
+      {s:"Which word is a booster rather than a hedge?",o:["possibly","undoubtedly","apparently","somewhat"],c:1,w:"Undoubtedly strengthens a claim instead of softening it."},
+      {s:"The evidence is ___ inconclusive.",o:["largely","proven","absolutely certainly","definitely not"],c:0,w:"Largely hedges the extent of the claim."},
+      {s:"It ___ that further study is needed.",o:["would appear","appears to be","is appear","appearing"],c:0,w:"It would appear that is a standard cautious formula."}]},
+ {id:"g24",t:"The subjunctive and formal structures",
+  body:["After verbs and adjectives of demanding, suggesting and requiring — <i>insist, demand, suggest, recommend, propose, essential, vital, crucial</i> — formal English uses the bare base form for every subject: <i>We recommend that he be informed. It is essential that she arrive on time.</i>",
+        "British English often prefers <i>should</i> in the same slot: <i>We recommend that he should be informed.</i> Both are correct.",
+        "The <b>were-subjunctive</b> survives in unreal conditions and set phrases: <i>If I were you. As it were. Were it not for the rain, we'd have finished.</i>"],
+  ex:[["The committee demanded that the report be rewritten.","No -s, no is."],
+      ["It is vital that everyone attend.","Base form after vital that."],
+      ["She suggested that he apply again.","Not applies."],
+      ["Were it not for her help, we'd have failed.","Formal inverted condition."]],
+  qs:[{s:"It is essential that he ___ present.",o:["is","be","will be","being"],c:1,w:"The subjunctive uses the bare base form."},
+      {s:"They insisted that she ___ immediately.",o:["leaves","left","leave","leaving"],c:2,w:"After insist that, use the base form."},
+      {s:"I recommend that the deadline ___ extended.",o:["is","be","was","being"],c:1,w:"Passive subjunctive: be extended."},
+      {s:"___ it not for the delay, we'd be there by now.",o:["Was","Were","If","Had"],c:1,w:"The were-subjunctive survives in this fixed pattern."},
+      {s:"The judge ordered that the documents ___ released.",o:["are","be","were","being"],c:1,w:"Order that takes the subjunctive."}]}
+]};
+
+const TALK = {
+beginner:[
+ {id:"t1",t:"Ordering in a café",set:"You're at the counter of a small café at lunchtime.",
+  d:[["Server","Hi there. What can I get you?"],["You","Could I have a flat white, please?"],["Server","Sure. To have here or take away?"],["You","To have here, thanks."],["Server","Anything to eat with that?"],["You","No, I'm fine for now. How much is it?"],["Server","That's three fifty. Card or cash?"],["You","Card, please."]],
+  p:[["Could I have…, please?","The safest, most natural way to order anything."],["To have here or take away?","Expect this everywhere. Answer with either half of it."],["I'm fine for now.","A soft no that doesn't sound rude."],["How much is it?","For several items, ask how much is that altogether?"]]},
+ {id:"t2",t:"Asking for directions",set:"You're lost in an unfamiliar part of town.",
+  d:[["You","Excuse me, sorry to bother you. Is there a chemist near here?"],["Local","There's one on Hill Road, about five minutes that way."],["You","Sorry, could you say that again a bit slower?"],["Local","Of course. Go straight ahead, then turn left at the traffic lights."],["You","Straight ahead, then left at the lights. Got it."],["Local","That's it. You'll see it on your right, next to the bank."],["You","Thanks so much for your help."]],
+  p:[["Sorry to bother you.","Opens politely with a stranger."],["Could you say that again a bit slower?","Far better than just what? — nobody minds being asked."],["Go straight ahead, then turn left.","The two core direction verbs."],["Got it.","Signals you understood and the exchange can end."]]},
+ {id:"t3",t:"Meeting someone new",set:"A friend's birthday party. You don't know anyone yet.",
+  d:[["Sam","Hi, I don't think we've met. I'm Sam."],["You","Nice to meet you, Sam. I'm Ravi."],["Sam","So how do you know Priya?"],["You","We used to work together. And you?"],["Sam","We're neighbours, actually. Have been for years."],["You","Oh nice. Whereabouts do you live?"],["Sam","Just off the main road, near the park."]],
+  p:[["I don't think we've met.","A gentle way to introduce yourself."],["How do you know…?","The standard party question. Always safe."],["And you?","Hands the question back and keeps things even."],["Whereabouts do you live?","Friendlier and vaguer than where exactly."]]},
+ {id:"t4",t:"At the pharmacy",set:"You've had a sore throat and a cough for three days.",
+  d:[["Pharmacist","Hello, how can I help?"],["You","I've had a sore throat for about three days and now a cough."],["Pharmacist","Any fever?"],["You","A slight one last night, but it's gone now."],["Pharmacist","Are you taking any other medication?"],["You","No, nothing at all."],["Pharmacist","Try these lozenges and this syrup, twice a day after food."],["You","How long should I take it for?"],["Pharmacist","Five days. If it's no better by then, see a doctor."]],
+  p:[["I've had … for three days.","Present perfect with for — the standard way to report symptoms."],["Any fever?","Short question forms are normal here. Answer briefly."],["Are you taking any other medication?","Expect this question every time."],["How long should I take it for?","Always ask this before you leave."]]},
+ {id:"t5",t:"Buying clothes",set:"You've found a shirt you like but the size looks wrong.",
+  d:[["Assistant","Are you looking for anything in particular?"],["You","I'm just browsing, thanks. Actually — do you have this in a medium?"],["Assistant","Let me check. We might have one out the back."],["You","Could I try it on first?"],["Assistant","Of course. The fitting rooms are just behind you."],["You","It's a bit tight across the shoulders. Do you have the next size up?"],["Assistant","I'll bring you a large."],["You","Perfect, thank you."]],
+  p:[["I'm just browsing.","Politely stops a salesperson without being rude."],["Do you have this in a medium?","The standard size request."],["Could I try it on?","Try on is the fixed phrase for clothes."],["The next size up.","Up for bigger, down for smaller."]]},
+ {id:"t6",t:"Taking a phone message",set:"You answer a colleague's phone while they're out.",
+  d:[["Caller","Hello, could I speak to Meera, please?"],["You","I'm afraid she's not at her desk. Can I take a message?"],["Caller","Yes, please. It's Arun from Delta Printing."],["You","Sorry, could you spell that for me?"],["Caller","A-R-U-N. Just tell her the proofs are ready."],["You","The proofs are ready. Can I get a number for her to call you back?"],["Caller","It's 98110 42317."],["You","Let me read that back — 98110 42317. I'll pass it on."]],
+  p:[["She's not at her desk.","Politer than she's not here."],["Can I take a message?","Standard phone English."],["Could you spell that for me?","Never guess a name."],["Let me read that back.","Prevents mistakes with numbers."]]},
+ {id:"t7",t:"At the ticket counter",set:"You're buying a train ticket for tomorrow morning.",
+  d:[["Clerk","Where are you travelling to?"],["You","Amritsar, please. Tomorrow morning if possible."],["Clerk","Single or return?"],["You","Return, coming back Sunday evening."],["Clerk","There's a 7.15 and a 9.40."],["You","I'll take the 9.40. Is it direct?"],["Clerk","You change at Jalandhar. Twenty-minute wait."],["You","That's fine. Which platform does it leave from?"]],
+  p:[["Single or return?","One-way or round trip. Expect the question."],["Is it direct?","Asks whether you must change trains."],["You change at…","The fixed verb for switching trains."],["Which platform does it leave from?","Note the preposition at the end."]]}
+],
+intermediate:[
+ {id:"t8",t:"Calling in sick",set:"It's 8am and you're not well enough to work.",
+  d:[["Manager","Morning, this is Anna."],["You","Hi Anna, it's Ravi. I'm afraid I won't be able to make it in today."],["Manager","Sorry to hear that. What's going on?"],["You","I've come down with a bad throat infection. I've got a doctor's appointment at eleven."],["Manager","No problem. Is anything urgent on your plate?"],["You","The client deck is due Thursday, but I'm on track. I'll email Dev to cover the standup."],["Manager","Perfect. Rest up and keep me posted."]],
+  p:[["I won't be able to make it in today.","Neutral and professional."],["I've come down with…","The natural phrase for catching an illness."],["Is anything urgent on your plate?","On your plate = among your current tasks."],["I'll keep you posted.","Promises an update without fixing a time."]]},
+ {id:"t9",t:"Returning a faulty item",set:"The headphones you bought last week have stopped working.",
+  d:[["Staff","Hi, how can I help?"],["You","I bought these headphones here last Tuesday and the left one's stopped working."],["Staff","Do you have the receipt?"],["You","I do, here you go. I'd like a refund if that's possible."],["Staff","We'd normally offer an exchange within fourteen days."],["You","I understand, but it's a fault rather than a change of mind, so I think a refund is fair."],["Staff","Let me check with my manager."],["You","Thanks, I appreciate it."]],
+  p:[["It's stopped working.","Describe the fault plainly."],["I'd like a refund if that's possible.","Softened, but still a clear request."],["I understand, but…","Acknowledge the rule, then hold your position."],["I appreciate it.","Warmer than thanks for a favour."]]},
+ {id:"t10",t:"Rescheduling with a friend",set:"You agreed to meet on Saturday, but something has come up.",
+  d:[["Maya","Still on for Saturday?"],["You","That's actually why I'm messaging — something's come up and I can't make Saturday."],["Maya","Ah, no worries. Everything okay?"],["You","Yeah, all fine, my cousin's visiting that weekend. Could we push it to the following week?"],["Maya","Sure. Does Sunday the 14th work for you?"],["You","Sunday's perfect. Same place, same time?"],["Maya","Works for me. See you then."]],
+  p:[["Something's come up.","Explains a cancellation without details."],["Could we push it to…?","The everyday phrase for moving a plan later."],["Does … work for you?","How native speakers propose a time."],["Same place, same time?","Confirms everything in four words."]]},
+ {id:"t11",t:"Viewing a flat",set:"You're seeing a one-bedroom flat you might rent.",
+  d:[["Agent","So this is the living room, and the bedroom's through there."],["You","It's brighter than I expected. What's included in the rent?"],["Agent","Water and maintenance. Electricity is separate."],["You","Roughly what would electricity come to in summer?"],["Agent","Most tenants pay around two thousand a month."],["You","And how much is the deposit?"],["Agent","Two months, refundable when you move out."],["You","Is there any flexibility on the rent for a longer lease?"],["Agent","Possibly, if you sign for two years."]],
+  p:[["What's included in the rent?","The single most useful question at a viewing."],["Roughly what would … come to?","Asks for an estimate without demanding a figure."],["How much is the deposit?","Ask early; it is often the largest sum."],["Is there any flexibility on…?","Opens a negotiation politely."]]},
+ {id:"t12",t:"Sorting out a billing error",set:"You've been charged twice for the same order.",
+  d:[["Agent","Thanks for holding. How can I help?"],["You","I've been charged twice for order 4471. I can see both amounts on my statement."],["Agent","Let me pull that up… yes, I can see two transactions."],["You","Could you refund the duplicate?"],["Agent","I can raise a request. It takes five to seven working days."],["You","That's longer than I'd hoped. Is there any way to speed it up?"],["Agent","I'll mark it as a billing error, which is usually faster."],["You","Thanks. Could you send me a confirmation email with a reference number?"]],
+  p:[["I've been charged twice.","Present perfect passive — the natural form for this."],["Let me pull that up.","You'll hear this constantly on support calls."],["Is there any way to speed it up?","Pushes without confrontation."],["Could you send me a confirmation with a reference number?","Always ask. It protects you later."]]},
+ {id:"t13",t:"A neighbour problem",set:"The flat above you plays loud music late at night.",
+  d:[["Neighbour","Oh, hi. Everything alright?"],["You","Hi — sorry to knock so late. I wanted to mention the music."],["Neighbour","Is it loud? I didn't realise."],["You","It carries quite a bit after about eleven. I'm up early for work."],["Neighbour","Ah, I'm sorry. I'll keep it down after ten."],["You","That would really help. I didn't want to make a thing of it."],["Neighbour","No, thanks for coming up rather than complaining to the landlord."]],
+  p:[["I wanted to mention…","Opens a complaint gently."],["It carries quite a bit.","Carries = travels through walls. Blames the sound, not the person."],["That would really help.","Accepts the offer warmly."],["I didn't want to make a thing of it.","Signals you are not looking for conflict."]]},
+ {id:"t14",t:"Your first day",set:"You've just joined and are being shown around.",
+  d:[["Colleague","Welcome! Has anyone shown you where anything is yet?"],["You","Not yet — I only got my laptop twenty minutes ago."],["Colleague","Right. Kitchen's that way, and we all sit in this bay."],["You","Who should I go to if I'm stuck on something?"],["Colleague","Me for tools and access, Nina for anything client-facing."],["You","Good to know. Is there a standup, or is it more informal?"],["Colleague","Ten past nine, fifteen minutes, camera optional."],["You","I'll be there. Thanks for taking the time."]],
+  p:[["Who should I go to if I'm stuck?","The best question to ask on day one."],["Good to know.","Acknowledges information without a long reply."],["Is there a standup, or is it more informal?","Offers two options so the answer is easy."],["Thanks for taking the time.","Closes warmly and professionally."]]}
+],
+advanced:[
+ {id:"t15",t:"The weakness question",set:"A job interview. The question you were hoping to avoid.",
+  d:[["Interviewer","And what would you say is your biggest weakness?"],["You","I'd say I've historically taken on too much myself rather than delegating."],["Interviewer","Can you give me an example?"],["You","On a product launch last year I kept the reporting in my own hands, and it became a bottleneck when I was off sick."],["Interviewer","How did you address it?"],["You","I built a shared dashboard and trained two colleagues on it. It's not fully solved, but the team no longer depends on me for it."],["Interviewer","That's a fair answer."]],
+  p:[["I'd say I've historically…","Frames the flaw as something already being worked on."],["It became a bottleneck.","Precise and unemotional about a problem you caused."],["How did you address it?","Address is the standard verb for dealing with a problem."],["It's not fully solved, but…","Honesty here reads as credible, not weak."]]},
+ {id:"t16",t:"Disagreeing in a meeting",set:"A colleague has proposed a timeline you think is unrealistic.",
+  d:[["Colleague","So we'd ship the whole thing by the end of the month."],["You","I can see the appeal of that, but I'm not sure the testing window holds up."],["Colleague","We've done tighter turnarounds before."],["You","We have. Though in those cases we weren't also migrating the database. That's the bit that worries me."],["Colleague","Fair point. What would you suggest?"],["You","Could we split it — ship the front end this month and the migration in the first week of next?"],["Colleague","That's worth considering."]],
+  p:[["I can see the appeal of that, but…","Concedes merit before pushing back."],["I'm not sure … holds up.","Questions the idea, not the person."],["That's the bit that worries me.","Narrows disagreement to one point."],["Could we split it?","Offers a route forward, not just an objection."]]},
+ {id:"t17",t:"Pushing back on a deadline",set:"Your manager has asked for something by Friday.",
+  d:[["Manager","I'd like the analysis on my desk by Friday."],["You","I want to be upfront — Friday's going to be tight given the audit work."],["Manager","How tight are we talking?"],["You","I could get you the headline numbers by Friday, but the full breakdown realistically lands Tuesday."],["Manager","The board only needs the headline figures on Friday."],["You","In that case Friday's doable. I'll flag it immediately if that changes."],["Manager","Good. Let's go with that."]],
+  p:[["I want to be upfront.","Signals honest news without alarm."],["Friday's going to be tight.","Says no is unlikely without refusing outright."],["Realistically lands Tuesday.","Realistically marks an honest estimate."],["I'll flag it immediately if that changes.","Trades the concession for early warning."]]},
+ {id:"t18",t:"Negotiating an offer",set:"You've been offered the job. The number is below what you wanted.",
+  d:[["Recruiter","We're delighted to offer you the role at eighteen lakh."],["You","Thank you — I'm genuinely pleased. I do want to be open that the figure sits below what I'd been working towards."],["Recruiter","What did you have in mind?"],["You","Based on what similar roles are paying and the scope here, I'd been looking at twenty-two."],["Recruiter","That's above our band for this level."],["You","I understand. Is there room on the joining bonus or the review timeline instead?"],["Recruiter","We could bring the first review forward to six months."],["You","That would go a long way. Could we put that in writing?"]],
+  p:[["I do want to be open that…","Introduces a disagreement without souring the mood."],["What did you have in mind?","Expect it — have a number ready."],["Is there room on … instead?","Moves the negotiation to a softer variable."],["Could we put that in writing?","Turns a verbal promise into a commitment."]]},
+ {id:"t19",t:"Giving difficult feedback",set:"Someone you manage has missed two deadlines in a row.",
+  d:[["You","I wanted to talk about the last two deliverables. Both landed late, and I'd like to understand why."],["Report","I know. The data kept changing underneath me."],["You","That's useful to know. What I'd have wanted is a heads-up before the date, not on it."],["Report","Fair. I kept thinking I'd catch up."],["You","That's the instinct I'd like to change. A late warning costs the team much less than a missed date."],["Report","Understood. I'll flag as soon as I'm at risk."],["You","Good. And if the data's unstable, tell me — that's a problem I can actually help with."]],
+  p:[["I'd like to understand why.","Opens with curiosity, not a verdict."],["What I'd have wanted is…","States the expectation clearly without insult."],["That's the instinct I'd like to change.","Targets the behaviour, not the person."],["That's a problem I can actually help with.","Ends by offering support."]]},
+ {id:"t20",t:"At a conference",set:"Coffee break. You want to speak to someone whose talk you liked.",
+  d:[["You","I enjoyed your talk — particularly the part about the failed pilot."],["Speaker","Thank you. That's usually the bit people skip over."],["You","It's the bit I recognised. We ran something similar and hit the same wall."],["Speaker","Did you? How did you get past it?"],["You","We didn't, entirely. We ended up narrowing the scope rather than solving it."],["Speaker","That's more or less where we landed too."],["You","I'd be interested to compare notes properly. Would you mind if I sent you an email?"],["Speaker","Please do."]],
+  p:[["Particularly the part about…","Specific praise proves you were listening."],["It's the bit I recognised.","Turns praise into a shared experience."],["That's more or less where we landed.","Where we landed = the conclusion we reached."],["I'd be interested to compare notes.","The natural way to propose staying in touch."]]},
+ {id:"t21",t:"An unhappy client",set:"A delivery slipped and the client is angry on the call.",
+  d:[["Client","This is the second time. I don't know what to tell my board."],["You","You're right to be frustrated, and I'm not going to argue with the facts."],["Client","So what actually went wrong?"],["You","Two of our reviewers were out and we had no cover. That's an internal failure, not a surprise from your side."],["Client","And what stops it happening again?"],["You","We've put a named backup on every review stage. I'd rather you judged that by what happens in March than by my saying so now."],["Client","That's fair."],["You","I'll send you a short written summary today so you have something for the board."]],
+  p:[["You're right to be frustrated.","Validates without grovelling."],["That's an internal failure.","Taking responsibility plainly defuses anger faster than excuses."],["I'd rather you judged that by what happens…","Offers evidence instead of promises."],["So you have something for the board.","Solves the client's real problem, not just yours."]]}
+]};
+
+const READ = {
+beginner:[
+ {id:"r1",t:"The umbrella on the bus",mins:2,
+  p:["Every morning Nadia takes the number 12 bus to the market. Last Tuesday it rained hard, so she carried her old blue umbrella.",
+     "The bus was crowded. She stood near the door, holding the wet umbrella against her leg. When the bus reached her stop, she hurried out and walked to the fruit stall.",
+     "Only at the stall did she notice her hands were empty. The umbrella was still on the bus.",
+     "She went to the bus office the next day. A tired man behind the desk looked in a large box and pulled out four umbrellas. None of them was blue. But one was green, with a strong wooden handle, and nobody had asked for it in three months.",
+     "'Take it,' he said. 'It rains more than people lose things.'"],
+  qs:[{s:"Why was Nadia carrying an umbrella?",o:["It was very sunny.","It was raining heavily.","It was a gift.","She was going to work."],c:1,w:"The second sentence says it rained hard."},
+      {s:"When did she realise the umbrella was missing?",o:["On the bus","At the bus office","At the fruit stall","At home"],c:2,w:"She noticed only when she reached the stall."},
+      {s:"What did the man give her?",o:["Her blue umbrella","A green umbrella","Nothing","Money"],c:1,w:"Hers wasn't there, so he offered the unclaimed green one."}]},
+ {id:"r2",t:"A note from the landlord",mins:2,
+  p:["Dear tenants,",
+     "The water will be switched off on Thursday 14th from 9am until about 2pm while the pipes on the second floor are repaired. Please fill a bucket the night before.",
+     "The lift will keep working as normal. If you live on the fourth or fifth floor and need help carrying water up, call the office on 0161 449 2200 before Wednesday evening and we will arrange it.",
+     "Bins are now collected on Mondays, not Fridays. Please do not leave bags in the corridor at any time — last month this blocked the fire exit.",
+     "Thank you for your patience.",
+     "R. Mehta, building manager"],
+  qs:[{s:"What should tenants do before Thursday?",o:["Leave the building","Fill a bucket with water","Use the stairs","Pay the rent"],c:1,w:"The note asks tenants to fill a bucket the night before."},
+      {s:"Who should phone the office?",o:["Everyone","Upper-floor tenants who need help","Nobody","Tenants with cars"],c:1,w:"The offer of help is for fourth and fifth floor tenants."},
+      {s:"What has changed about the bins?",o:["They cost money now","They are collected on Mondays","They have moved outside","They are collected twice a week"],c:1,w:"Collection moved from Friday to Monday."}]},
+ {id:"r3",t:"The shop that opens at five",mins:2,
+  p:["Mr Dhillon opens his shop at five in the morning. Nobody asked him to. The bread does not arrive until six and the first customers come at seven.",
+     "He opens early because of the drivers. Lorries pass through the town all night, and between five and six the drivers stop for tea. They do not buy much — a cup, sometimes biscuits — but they have been stopping for eleven years.",
+     "His son says the hour costs more in electricity than it earns. Mr Dhillon agrees. He says this is true, and that he will keep opening at five anyway.",
+     "Last winter he was ill for two weeks. When he came back, a driver told him that three of them had started stopping at a petrol station instead, and that the tea there was terrible.",
+     "'Good,' said Mr Dhillon."],
+  qs:[{s:"Why does Mr Dhillon open so early?",o:["The bread arrives early","Lorry drivers stop for tea","His son asked him to","The shop is busiest then"],c:1,w:"Drivers passing through stop for tea between five and six."},
+      {s:"What does his son think?",o:["The early hour loses money","The shop should open earlier","The tea is too expensive","The drivers are rude"],c:0,w:"His son says the hour costs more in electricity than it earns."},
+      {s:"How does Mr Dhillon respond to his son's point?",o:["He disagrees with the figures","He agrees but continues anyway","He closes the shop","He raises his prices"],c:1,w:"He accepts the maths and keeps opening at five."},
+      {s:"Why does he say 'Good'?",o:["He is glad they found a better shop","He is pleased his tea was missed","He wants fewer customers","He is being rude to the driver"],c:1,w:"The drivers found the other tea terrible, which quietly pleases him."}]},
+ {id:"r4",t:"Part-time assistant wanted",mins:2,
+  p:["Green Lane Garden Centre is looking for a part-time assistant.",
+     "Hours: Friday to Sunday, 8am to 2pm. Some flexibility in December.",
+     "The work: helping customers find plants, carrying bags of soil, watering the outdoor section and working on the till. Training is given for the till. You do not need to know about plants, but you should be willing to learn.",
+     "We are looking for someone reliable who can lift up to 20 kilos and does not mind working outdoors in cold weather.",
+     "Pay is above minimum wage, with a staff discount of 20 per cent.",
+     "To apply, bring a short CV to the shop and ask for Deepa. Please do not email. We usually reply within a week."],
+  qs:[{s:"Which days would you work?",o:["Monday to Friday","Weekends only","Friday, Saturday and Sunday","Any three days"],c:2,w:"The advert lists Friday to Sunday."},
+      {s:"What is NOT required?",o:["Lifting 20 kilos","Working outdoors","Knowing about plants","Being reliable"],c:2,w:"It says you don't need to know about plants, only be willing to learn."},
+      {s:"How should you apply?",o:["By email","By phone","In person with a CV","Online"],c:2,w:"Bring a CV to the shop and ask for Deepa; do not email."}]},
+ {id:"r5",t:"Three messages",mins:2,
+  p:["From Asha, 6:42pm: Hi! Still okay for tomorrow? I've booked a table for 7.30 but I can change it.",
+     "From Asha, 6:43pm: Also it's the place near the station, not the one we went to in March. Different street.",
+     "From Asha, 7:15pm: One more thing — Rohit's coming too. He's bringing his sister, so we'll be four. I've told them 7.30 as well. Don't be late like last time!"],
+  qs:[{s:"What time is the table booked for?",o:["6.42pm","7.15pm","7.30pm","March"],c:2,w:"The first message gives 7.30."},
+      {s:"Which restaurant is it?",o:["The one they went to in March","The one near the station","Rohit's choice","It isn't decided"],c:1,w:"Asha corrects herself: near the station, not the March one."},
+      {s:"How many people will be there?",o:["Two","Three","Four","Five"],c:2,w:"Asha says we'll be four."}]}
+],
+intermediate:[
+ {id:"r6",t:"Why we yawn",mins:3,
+  p:["Almost everyone assumes yawning means one thing: you are tired. It is a reasonable guess, and it is probably wrong, or at least incomplete.",
+     "The old explanation was that a yawn pulls in extra oxygen when the blood runs low on it. That idea survived for most of the twentieth century until researchers tested it directly. People given air rich in oxygen went on yawning at the same rate. So did people given air rich in carbon dioxide. The theory quietly collapsed.",
+     "A more convincing account is that yawning cools the brain. A deep yawn stretches the jaw, increases blood flow to the skull, and draws in air that is usually cooler than body temperature. Studies have found that people yawn more when the air outside is slightly cooler than they are, and considerably less when it is hotter — exactly what you would expect if the point is to shed heat.",
+     "Then there is the strangest feature of all. Yawning is contagious. Reading this paragraph is enough to make a fair number of people yawn. Contagious yawning appears in humans, chimpanzees, dogs and a handful of other social species, and it spreads most easily between individuals who know each other well. That has led some researchers to treat it as a marker of social bonding.",
+     "None of this rules out tiredness. We do yawn more before sleep and after waking. But the reason may have less to do with running out of air than with a brain that is changing temperature as it changes state."],
+  qs:[{s:"What happened to the oxygen theory?",o:["It was confirmed","Experiments failed to support it","It was never tested","It applies only to animals"],c:1,w:"Extra oxygen made no difference to the rate of yawning."},
+      {s:"When do people yawn less, according to the cooling account?",o:["When the air is hotter than they are","When they are alone","In the morning","In cool air"],c:0,w:"Yawning drops in hot air, as a cooling function predicts."},
+      {s:"What does contagious yawning seem to indicate?",o:["Poor sleep","Illness","A social connection","Low oxygen"],c:2,w:"It spreads most between individuals who know each other."},
+      {s:"What is the writer's final position on tiredness?",o:["It is irrelevant","It is still involved, but for a different reason","It is the only cause","The question cannot be studied"],c:1,w:"The last paragraph keeps tiredness but reinterprets why."}]},
+ {id:"r7",t:"The night market comes back",mins:3,
+  p:["For thirty years the covered market on Canal Street opened at six in the morning and shut at four in the afternoon, like markets everywhere. By 2019 half the stalls stood empty. Supermarkets had taken the weekly shop, and the traders who remained were selling to a shrinking group of regulars, most of them over sixty.",
+     "The council's first instinct was to modernise: new lighting, new signage, a café. Footfall rose slightly and then settled back. What finally worked was a change nobody had proposed at the meetings — moving the opening hours.",
+     "A trader named Farida asked whether she could open in the evening instead, arguing that the people who now lived in the converted flats above the market were at work all day. The council agreed to a three-month trial for anyone who wanted to join. Nine traders did.",
+     "The evening market drew a different crowd and, crucially, a different kind of business. Fruit and vegetables did not sell much better after dark, but cooked food did. Within a year, twelve of the empty units had been taken by small kitchens. The fabric seller stayed open until nine and found that people browsed longer when they were not rushing to work.",
+     "Not everyone gained. Two of the oldest traders, both selling household goods, could not staff an evening shift and left within eighteen months. The market survived, but it is not the market that was rescued — it is a different one that grew in the same building."],
+  qs:[{s:"Why did the market decline?",o:["The building was unsafe","Supermarkets took the weekly shop","The council closed stalls","Rents rose"],c:1,w:"Supermarkets are named as the cause of the lost trade."},
+      {s:"How well did the council's first attempt work?",o:["It failed completely","Footfall rose briefly then settled back","It doubled trade","It was never tried"],c:1,w:"New lighting and signage gave only a short-lived lift."},
+      {s:"Which business benefited most from evening hours?",o:["Fruit and vegetables","Household goods","Cooked food","Books"],c:2,w:"Twelve empty units became small kitchens."},
+      {s:"What does the last paragraph suggest?",o:["The rescue was painless","The original market was preserved","Survival came with real losses","The market closed"],c:2,w:"Two traders left and the writer stresses it is a different market."}]},
+ {id:"r8",t:"The library that lends drills",mins:3,
+  p:["The average household power drill is used for somewhere between six and thirteen minutes in its entire working life. The figure is repeated so often that its origin has been lost, but nobody who owns a drill finds it surprising.",
+     "This is the observation behind the tool library. The idea is simple: members pay a small annual fee and borrow tools the way they borrow books. The first ones appeared in North America in the seventies, faltered, and returned in the last decade with better software and a clearer sense of who they are for.",
+     "The economics are less obvious than they look. A tool library does not mainly save money on the tool itself, because a cheap drill costs little. What it saves is storage, maintenance and the decision. Members report that the real benefit is being able to attempt a job they would otherwise have paid someone else to do, or simply left undone.",
+     "The failure mode is predictable and well documented: everyone wants the same six items on the same Saturday morning, and nobody wants the specialised tile cutter that sits on the shelf for a year. Successful libraries respond by charging nothing for the rare items and rationing the popular ones with booking systems.",
+     "There is a second, quieter effect. Tool libraries tend to run repair workshops, because the staff are already the kind of people who can fix things and the members already own things that are broken. In several cities the workshop has outgrown the lending. What began as a way to avoid buying a drill has become a place where a kettle gets mended."],
+  qs:[{s:"Why is the drill statistic used?",o:["To prove drills are badly made","To show most tools sit unused","To argue drills are too expensive","To criticise manufacturers"],c:1,w:"It introduces the observation that ownership is mostly idle."},
+      {s:"According to the writer, what does a tool library mainly save?",o:["The cost of the tool","Storage, maintenance and the decision","Electricity","Time at work"],c:1,w:"The third paragraph says the tool itself is cheap; the savings are elsewhere."},
+      {s:"What is the predictable failure mode?",o:["Tools get stolen","Demand clusters on a few items at the same time","Nobody joins","Staff cannot repair tools"],c:1,w:"Everyone wants the same six items on the same morning."},
+      {s:"How do successful libraries respond?",o:["By buying more of everything","By closing at weekends","By free rare items and booking systems for popular ones","By raising fees"],c:2,w:"That is exactly the pricing and rationing response described."},
+      {s:"What is the 'quieter effect'?",o:["Repair workshops growing out of the lending","Lower membership fees","More tool manufacturers","Fewer members"],c:0,w:"Workshops have in several cities outgrown the lending itself."}]},
+ {id:"r9",t:"Learning to say no",mins:3,
+  p:["Most advice about saying no treats it as a matter of courage. Find the nerve, use the word, accept that some people will be disappointed. That framing is not wrong, but it skips the part that people actually find hard, which is not the word but the gap that follows it.",
+     "In practice, a refusal that stops at no invites negotiation. The other person fills the silence with reasons, and each reason must then be answered. The refusal becomes a debate, and debates are usually won by whoever cares more in the moment, which is rarely the person who wanted to leave early.",
+     "What works better is a refusal with a shape: a clear no, a short reason that cannot be argued with, and an alternative if you have one. 'I can't take that on this week — I've got the audit. I could look at it after the 20th.' The reason is factual rather than emotional, so there is nothing to dispute. The alternative gives the other person somewhere to go.",
+     "The one move to avoid is the apologetic cascade, in which each sentence undoes the last. 'I'm so sorry, I'd love to, it's just that things are a bit mad, but maybe I could squeeze it in?' This reads as a yes that has not arrived yet, and the other person will wait for it.",
+     "None of this makes refusal comfortable. It simply makes it shorter, which for most people turns out to be the same thing."],
+  qs:[{s:"What does the writer say is the hard part of refusing?",o:["Saying the word no","The gap that follows the refusal","Choosing the right tone","Apologising properly"],c:1,w:"The first paragraph names the silence after no, not the word itself."},
+      {s:"Why does a bare no cause problems?",o:["It sounds rude","It invites negotiation","It is unclear","It is too formal"],c:1,w:"The other person fills the silence with reasons that must be answered."},
+      {s:"What kind of reason does the writer recommend?",o:["An emotional one","A vague one","A factual one that cannot be disputed","No reason at all"],c:2,w:"A factual reason leaves nothing to argue with."},
+      {s:"What is the 'apologetic cascade'?",o:["Repeating no several times","Sentences that each undo the previous one","Apologising in writing","Refusing without explanation"],c:1,w:"Each clause weakens the last, so it reads as an unarrived yes."},
+      {s:"What does the closing sentence claim?",o:["Refusal becomes easy with practice","A shorter refusal is effectively a more comfortable one","Refusal should be avoided","Comfort matters more than clarity"],c:1,w:"It says shorter turns out, for most people, to be the same as easier."}]},
+ {id:"r10",t:"The two-minute rule and its limits",mins:3,
+  p:["A popular piece of productivity advice says that if a task takes less than two minutes, you should do it immediately rather than write it down. The reasoning is that capturing, storing and later retrieving a small task costs more than simply finishing it.",
+     "As arithmetic this is sound. As a rule for a working day it has a flaw that its supporters rarely mention: almost everything looks like it takes two minutes, and almost nothing does. The reply that takes two minutes to type takes fifteen to think about, and the interruption costs more again on the other side, when you return to whatever you were doing and spend several minutes finding your place.",
+     "Studies of interrupted work put the recovery cost surprisingly high, though the exact figure varies with the task. What matters is the direction: the cost of a switch is paid twice, once going out and once coming back, and the two-minute rule counts only the time in the middle.",
+     "The rule also rewards the wrong kind of task. Small requests arrive from other people; large ones tend to be your own. A day spent obeying the rule strictly can end with every inbox cleared and nothing of your own moved forward, which feels like productivity and is not.",
+     "The sensible version keeps the rule but changes when it applies. Small tasks are batched into a window rather than done on arrival. The arithmetic still works, but it is done once, on a pile, rather than forty times on individual items."],
+  qs:[{s:"What is the original justification for the rule?",o:["Small tasks are more important","Capturing and retrieving costs more than doing","People forget small tasks","It reduces stress"],c:1,w:"The first paragraph gives the storage-and-retrieval argument."},
+      {s:"What flaw does the writer identify?",o:["Two minutes is too long","Tasks rarely take as little as they appear to","The rule is hard to remember","It only works for email"],c:1,w:"Almost everything looks like two minutes and almost nothing is."},
+      {s:"What does the writer mean by the cost being 'paid twice'?",o:["You do the task twice","You lose time leaving the task and returning to it","It costs money as well as time","Two people are interrupted"],c:1,w:"The switch costs on the way out and again on the way back."},
+      {s:"Why does the rule reward the wrong tasks?",o:["Small tasks are harder","Small requests come from others while large ones are your own","Large tasks are less useful","Inboxes are unimportant"],c:1,w:"Obeying it clears other people's requests while your own work stalls."},
+      {s:"What does the writer propose instead?",o:["Abandoning the rule","Batching small tasks into a window","Doing only large tasks","Ignoring the inbox"],c:1,w:"The arithmetic is done once on a pile rather than repeatedly."}]}
+],
+advanced:[
+ {id:"r11",t:"The quiet economics of repair",mins:4,
+  p:["A washing machine bought in 1985 was expected to last twenty years, and the shop that sold it usually employed someone who could fix it. A washing machine bought today will probably last seven, and the nearest person qualified to open it may be forty miles away. This is not simply a story about products getting worse. It is a story about where the cost of a thing has quietly migrated.",
+     "Manufacturing costs have fallen sharply in real terms. Labour costs have not. The consequence is that the economics of repair have inverted: a job that once cost a fraction of the replacement price now routinely exceeds it. Once repair costs more than replacement, the rational consumer replaces — and once enough consumers replace, the repair trade thins out, which raises the price of the remaining repairers, which pushes more consumers towards replacement. The loop tightens on itself.",
+     "Manufacturers are often blamed, and some deserve it. Glued seams, proprietary screws and unavailable spare parts are real, deliberate and well documented. But it would be a mistake to treat design decisions as the whole explanation, because the loop would run even if every machine were built to open. The deeper driver is the price of an hour of skilled human attention relative to the price of a new object, and no amount of removable screws changes that ratio directly.",
+     "This is why the more effective interventions have been economic rather than technical. Sweden cut VAT on repairs to certain goods. France introduced a repairability score printed beside the price, which appears to shift purchasing behaviour at the point of sale rather than years later. European right-to-repair rules oblige manufacturers to supply parts for a fixed period, which does not lower the cost of labour but removes the excuse that the part cannot be obtained.",
+     "What none of these measures has yet done is rebuild the workforce. A repairer takes years to train and cannot be conjured by legislation. The countries that still have a dense repair economy tend to be the ones that never fully lost it — which suggests that the cheapest moment to protect such a trade is long before anyone notices it is disappearing."],
+  qs:[{s:"What is the central mechanism the writer identifies?",o:["Deliberate breakage","A self-reinforcing loop between repair cost and replacement","Consumer laziness","Falling quality alone"],c:1,w:"The loop tightens on itself as the repair trade thins out."},
+      {s:"How does the writer treat blame placed on manufacturers?",o:["Rejects it entirely","Accepts it as the full explanation","Partly fair but insufficient","Ignores it"],c:2,w:"Some deserve blame, but the loop would run even with repairable designs."},
+      {s:"Why are the French and Swedish measures called economic?",o:["They act on price and information at the point of sale","They redesign products","They train repairers","They ban replacement"],c:0,w:"A VAT cut and a printed score both work through price and information."},
+      {s:"What is the final paragraph's claim?",o:["Legislation can rebuild the trade quickly","Preserving an existing trade is cheaper than rebuilding one","Repair is not worth pursuing","All countries have lost their repairers"],c:1,w:"A repairer cannot be conjured by law, so protection beats reconstruction."}]},
+ {id:"r12",t:"What maps leave out",mins:4,
+  p:["Every map is a claim about what matters. The projection decides which countries look large, the choice of labels decides which places exist, and the blank spaces decide what is not worth naming. None of these are neutral decisions, and most of them are invisible to the person holding the map.",
+     "Consider a standard road atlas. It shows a footpath only if that path has been formally recorded, which means it shows the routes that a bureaucracy once had reason to write down. A track worn across a field by two generations of schoolchildren does not appear, not because the cartographer is careless, but because the category does not exist in the source data. The map is accurate about what it claims to represent and silent about a great deal else.",
+     "Digital maps have changed the nature of the omissions rather than removing them. A route-planning application knows a road's speed limit but not whether it is pleasant, knows a restaurant's rating but not whether it is somewhere you would be comfortable sitting alone. What it can measure expands every year; what it cannot measure it treats, for practical purposes, as absent. The danger is not that the application lies. It is that a generation of users comes to treat the measurable as the complete.",
+     "Historians of cartography like to point out that early maps were honest about their ignorance. Blank regions were marked as unknown, and the edges of knowledge were drawn as edges. Modern maps have no blank regions. Every square is filled, coloured and labelled, which creates the impression of completeness even where the underlying data is thin or decades old.",
+     "The useful habit is not distrust but a particular kind of attention: to ask of any map what question it was made to answer, and to assume that everything outside that question has been smoothed away. A map made to help lorries reach warehouses will be an excellent guide to warehouses and a poor guide to everything else — and it will not tell you which it is."],
+  qs:[{s:"What is the main argument?",o:["Maps are usually inaccurate","Maps encode invisible choices about what matters","Digital maps solved the problem","Old maps were more accurate"],c:1,w:"Projections, labels and blanks are all non-neutral claims."},
+      {s:"Why is the worn field path absent from the atlas?",o:["Carelessness","It is too small","The source data has no category for it","It is private land"],c:2,w:"The category does not exist in the data, not that anyone erred."},
+      {s:"What worry is raised about digital maps?",o:["They lie","Users treat the measurable as everything there is","They are slow","They show too many paths"],c:1,w:"The danger named is completeness, not dishonesty."},
+      {s:"Why does the writer admire early maps?",o:["They were beautiful","They marked the limits of their knowledge","They were detailed","They used better projections"],c:1,w:"Blank regions and drawn edges were honest about ignorance."},
+      {s:"What does the closing paragraph recommend?",o:["Distrusting maps","Using paper maps","Asking what question the map was built to answer","Making your own"],c:2,w:"Attention to purpose, and to what was smoothed away."}]},
+ {id:"r13",t:"The tyranny of the average",mins:4,
+  p:["In the late 1940s the United States Air Force had a problem it could not explain. Its pilots were crashing at a rate that could not be attributed to training or to mechanical failure, and the cockpit — designed in 1926 to fit the average pilot — was eventually examined as a suspect.",
+     "A young researcher named Gilbert Daniels was given the task of updating the average. He measured more than four thousand pilots across ten dimensions and then asked a question nobody had thought to ask: how many pilots were close to average on all ten? He defined close generously, as the middle thirty per cent of the range on each measure.",
+     "The answer was none. Not a small number: zero. On any three dimensions, fewer than five per cent qualified. The average pilot, the figure the cockpit had been built around, described nobody at all.",
+     "The conclusion the Air Force drew was not to find a better average but to abandon averages as a design target. Manufacturers were told to build adjustable seats, pedals and straps, and told that cost was not an acceptable objection. Adjustability, which had been treated as a luxury, became a requirement, and performance improved across the board.",
+     "The lesson travels badly, which is why it keeps having to be relearned. An average is a real and useful description of a group. It is almost never a description of a member of that group, and any system designed for the average member is designed for someone who does not exist. Schools, software interfaces and medical dosing have each rediscovered this independently, usually after building for a phantom first.",
+     "The harder question, and the one Daniels did not answer, is what to do when adjustability is genuinely impossible. A cockpit can be made to move. A curriculum and a public timetable cannot move for everyone at once, and the choice of which dimension to make flexible is a political decision dressed as a technical one."],
+  qs:[{s:"What was Daniels asked to do?",o:["Redesign the cockpit","Update the average pilot's measurements","Train pilots better","Investigate mechanical faults"],c:1,w:"He was given the task of updating the average."},
+      {s:"What did he find?",o:["Most pilots were near average","About half were near average","No pilot was near average on all ten measures","Only tall pilots crashed"],c:2,w:"The answer was zero, even with a generous definition of close."},
+      {s:"What did the Air Force decide to do?",o:["Compute a better average","Require adjustable equipment","Select pilots by size","Reduce the number of measures"],c:1,w:"They abandoned averages and mandated adjustability."},
+      {s:"Why does the writer say the lesson 'travels badly'?",o:["It is written in technical language","Other fields keep rediscovering it independently","It applies only to aircraft","It has been disproved"],c:1,w:"Schools, software and medicine each rediscovered it after building for a phantom."},
+      {s:"What is the harder question raised at the end?",o:["How to measure people accurately","What to do when adjustability is impossible","Whether averages are ever useful","How to train researchers"],c:1,w:"Some systems cannot flex for everyone, making the choice political."}]},
+ {id:"r14",t:"Why projects slip",mins:4,
+  p:["Ask anyone who has managed work for a living why projects run late, and the first answer is usually optimism. People underestimate how long things take. This is true, well studied and given a name — the planning fallacy — but as an explanation it is close to useless, because knowing about it does not appear to cure it. Experienced estimators who are told about the planning fallacy continue to underestimate.",
+     "A more structural account looks at where the slippage accumulates. Individual tasks are usually estimated with some accuracy at the median. What is missed is the shape of the distribution around that median: a task can finish slightly early but it can finish enormously late. The upside is bounded and the downside is not.",
+     "Chain those asymmetric tasks together and the effect compounds, because a chain can only be as early as its slowest link allows, while any single link can delay everything behind it. Adding people does not fix this and often worsens it, since coordination grows faster than capacity — the observation Fred Brooks made in 1975 and which has survived every attempt to disprove it.",
+     "A third factor is rarely discussed because it is uncomfortable. Estimates are political documents. The person giving the number usually wants the work approved, and a number that gets the project killed is a number nobody thanks you for. The result is a systematic downward pressure that has nothing to do with cognitive bias and everything to do with incentives, and it is the reason that organisations which punish late delivery tend to receive worse estimates, not better ones.",
+     "The methods that actually help are unglamorous. Estimate ranges instead of points. Record what past work took and use it in preference to intuition. Keep the critical chain short. Separate the person who estimates from the person who must defend the budget. None of this makes a project predictable. It makes the unpredictability visible early, which is a different and more achievable goal."],
+  qs:[{s:"Why does the writer call the planning fallacy 'close to useless' as an explanation?",o:["It has been disproved","Knowing about it does not stop the error","It applies only to beginners","It is too technical"],c:1,w:"Experienced estimators who know about it still underestimate."},
+      {s:"What is the structural point about task distributions?",o:["Tasks are always underestimated at the median","Early finishes are bounded but late finishes are not","Most tasks finish early","Medians are unreliable"],c:1,w:"The upside is limited while the downside has no ceiling."},
+      {s:"Why does adding people often make things worse?",o:["New people are less skilled","Coordination grows faster than capacity","It costs more","Tasks cannot be divided"],c:1,w:"That is the observation attributed to Brooks in 1975."},
+      {s:"What is the 'uncomfortable' third factor?",o:["Poor tools","Estimates are shaped by incentives to get work approved","Lack of training","Bad luck"],c:1,w:"Estimates function as political documents, pushing numbers down."},
+      {s:"According to the writer, what do the recommended methods achieve?",o:["Accurate prediction","Faster delivery","Early visibility of unpredictability","Lower costs"],c:2,w:"They make the uncertainty visible early rather than removing it."}]},
+ {id:"r15",t:"The last speakers",mins:4,
+  p:["When a language falls out of use, the loss is usually described in terms of vocabulary, as though what disappears is a list. Some of what goes is indeed lexical: words for plants that only grow in one valley, for kinship relations that other languages do not distinguish, for states of weather too specific to translate. But the more interesting losses are structural.",
+     "Languages differ in what they oblige a speaker to specify. English forces you to mark tense; you cannot say a sentence about an event without indicating whether it has happened. Other languages force you to mark evidentiality — whether you saw the event yourself, were told about it, or infer it — and a speaker of such a language cannot report a fact without also reporting how they came to know it. Neither system is superior. But each makes certain habits of attention automatic, and when the last fluent speaker of an evidential language dies, a working demonstration that human beings can be built that way goes with them.",
+     "This is why documentation is harder than it sounds. A dictionary and a grammar preserve the description of a language, not its use. What cannot be captured is the speed at which a fluent speaker deploys a construction, the range of things it can be stretched to mean, and the judgements about what sounds wrong — which are precisely what linguists most want and what disappears first, typically a generation before the last speaker dies.",
+     "Revival efforts complicate the picture further. A revived language is a real language with real speakers, and its value to the community that revives it does not depend on how closely it matches the original. But it is usually a different thing: simpler in the places where the old structures were hardest, and shaped by the grammar of whatever language the revivers speak natively. Something returns. It is not always the same something.",
+     "The most honest summary may be the least satisfying. Language loss is an event with no single victim and no single remedy, and the communities involved are rarely asking the question a linguist would ask. When a family stops speaking a language it is almost never because they have stopped valuing it. It is because the cost of continuing has been made, by someone else, too high."],
+  qs:[{s:"What kind of loss does the writer find most interesting?",o:["Lexical loss","Structural loss","Loss of written records","Loss of place names"],c:1,w:"The opening sets aside vocabulary in favour of structure."},
+      {s:"What is evidentiality?",o:["Marking tense","Marking how the speaker knows something","Marking politeness","Marking number"],c:1,w:"Whether you saw, were told, or inferred the event."},
+      {s:"Why is documentation harder than it sounds?",o:["Recording equipment is expensive","Dictionaries capture description, not fluent use","Speakers refuse to help","Grammars are too long"],c:1,w:"Speed, stretch and wrongness judgements cannot be written down."},
+      {s:"What does the writer say about revived languages?",o:["They are worthless","They exactly restore the original","They are real, but usually a different thing","They always fail"],c:2,w:"Something returns, shaped by the revivers' native grammar."},
+      {s:"What is the final paragraph's point about why families stop?",o:["They stop valuing the language","The cost of continuing was made too high by others","The language was too difficult","They move abroad"],c:1,w:"The closing sentence puts the cause outside the family."}]}
+]};
+
+const PHRASAL = [
+ ["ask for","request something","She asked for a receipt."],
+ ["back up","support, or make a copy","Can you back up my story? / Back up your files weekly."],
+ ["break down","stop working; lose emotional control","The car broke down on the motorway."],
+ ["break up","end a relationship; separate","They broke up after four years."],
+ ["bring up","raise a topic; raise a child","Don't bring that up at dinner."],
+ ["call off","cancel","They called off the match because of rain."],
+ ["carry on","continue","Carry on — I'm listening."],
+ ["catch up","reach the same point as others","I need to catch up on emails."],
+ ["check in","register at a hotel or airport","We checked in two hours early."],
+ ["check out","leave a hotel; examine something","Check out this article."],
+ ["come across","find by chance; give an impression","I came across an old photo."],
+ ["come up with","produce an idea","She came up with a better plan."],
+ ["count on","rely on","You can count on him."],
+ ["cut down on","reduce","I'm cutting down on sugar."],
+ ["deal with","handle","I'll deal with the complaint."],
+ ["drop off","deliver; fall asleep","Can you drop me off at the station?"],
+ ["end up","finally be in a situation","We ended up walking home."],
+ ["fill in","complete a form; substitute","Fill in this form, please."],
+ ["find out","discover information","I found out he'd already left."],
+ ["get along with","have a good relationship","She gets along with everyone."],
+ ["get away with","escape punishment","He got away with a warning."],
+ ["get by","manage with difficulty","We get by on one salary."],
+ ["get over","recover from","It took a month to get over the flu."],
+ ["give up","stop trying; quit","Don't give up now."],
+ ["go over","review carefully","Let's go over the figures again."],
+ ["go through","experience; examine","She's going through a hard time."],
+ ["grow up","become an adult","I grew up in Chandigarh."],
+ ["hand in","submit","Hand in your assignment by Friday."],
+ ["hang on","wait","Hang on, I'll check."],
+ ["hold on","wait; grip","Hold on a second."],
+ ["keep up with","stay level with","I can't keep up with the reading."],
+ ["look after","take care of","Who's looking after the dog?"],
+ ["look forward to","await with pleasure","I'm looking forward to seeing you."],
+ ["look into","investigate","We'll look into the delay."],
+ ["look up","search for information","Look it up in the dictionary."],
+ ["make out","manage to see or hear","I couldn't make out the sign."],
+ ["make up","invent; reconcile; form","He made up an excuse."],
+ ["pass away","die (gentle)","Her grandfather passed away in June."],
+ ["pay off","repay fully; produce results","The training paid off."],
+ ["pick up","collect; learn casually","I'll pick you up at seven."],
+ ["point out","draw attention to","She pointed out the error."],
+ ["put off","postpone; discourage","They put off the wedding."],
+ ["put up with","tolerate","I won't put up with this noise."],
+ ["run into","meet by chance; hit","I ran into an old colleague."],
+ ["run out of","have none left","We've run out of milk."],
+ ["set up","establish; arrange","They set up a small business."],
+ ["settle down","become calm or established","He settled down after the move."],
+ ["show up","arrive, often unexpectedly","Only three people showed up."],
+ ["sort out","resolve; organise","I'll sort out the booking."],
+ ["stand for","represent; tolerate","BBC stands for British Broadcasting Corporation."],
+ ["take after","resemble a relative","She takes after her mother."],
+ ["take off","leave the ground; become successful; remove","The plane took off late."],
+ ["take on","accept work or responsibility","Don't take on too much."],
+ ["take over","assume control","A larger firm took over the company."],
+ ["take up","begin a hobby; occupy space or time","He's taken up cycling."],
+ ["think over","consider carefully","Think it over and tell me tomorrow."],
+ ["turn down","reject; lower volume","She turned down the offer."],
+ ["turn out","prove to be; attend","It turned out to be a good decision."],
+ ["turn up","arrive; increase volume","He turned up an hour late."],
+ ["work out","exercise; calculate; end well","It worked out better than expected."]
+];
+
+const IDIOMS = [
+ ["a blessing in disguise","something bad that turns out well","Losing that job was a blessing in disguise."],
+ ["back to square one","back to the start with no progress","The client rejected it, so we're back to square one."],
+ ["beat around the bush","avoid saying something directly","Stop beating around the bush and tell me."],
+ ["bite off more than you can chew","take on too much","I bit off more than I could chew with three projects."],
+ ["break the ice","ease initial awkwardness","He told a joke to break the ice."],
+ ["call it a day","stop working for now","It's nine o'clock — let's call it a day."],
+ ["cut corners","do something cheaply or carelessly","They cut corners on the wiring."],
+ ["down to the wire","decided at the last possible moment","The vote went down to the wire."],
+ ["get the hang of it","learn how to do something","Give it a week and you'll get the hang of it."],
+ ["go the extra mile","do more than required","She always goes the extra mile for clients."],
+ ["hit the nail on the head","describe something exactly right","You've hit the nail on the head."],
+ ["in the same boat","in the same difficult situation","We're all in the same boat here."],
+ ["it's not rocket science","it isn't difficult","Filling the form isn't rocket science."],
+ ["jump the gun","act too early","They jumped the gun announcing it."],
+ ["keep your chin up","stay positive in difficulty","Keep your chin up — results come out Friday."],
+ ["learn the ropes","learn how things are done","Give him a month to learn the ropes."],
+ ["let someone off the hook","free someone from an obligation","I'll let you off the hook this once."],
+ ["long story short","summarising quickly","Long story short, we missed the flight."],
+ ["miss the boat","lose an opportunity","We missed the boat on that contract."],
+ ["on the same page","in agreement","Let's make sure we're on the same page."],
+ ["once in a blue moon","very rarely","We eat out once in a blue moon."],
+ ["out of the blue","completely unexpectedly","She called me out of the blue."],
+ ["piece of cake","very easy","The exam was a piece of cake."],
+ ["play it by ear","decide as you go","We'll play it by ear on Sunday."],
+ ["pull someone's leg","tease someone","Relax, I'm pulling your leg."],
+ ["put your foot in it","say something embarrassing","I really put my foot in it at dinner."],
+ ["read between the lines","find a hidden meaning","Read between the lines — he's resigning."],
+ ["rule of thumb","a rough practical guide","As a rule of thumb, double your estimate."],
+ ["see eye to eye","agree completely","We don't see eye to eye on pricing."],
+ ["sit on the fence","avoid choosing a side","Stop sitting on the fence."],
+ ["take it with a pinch of salt","don't fully believe it","Take his figures with a pinch of salt."],
+ ["the ball is in your court","it's your decision now","I've replied — the ball's in your court."],
+ ["the last straw","the final problem in a series","The cancelled meeting was the last straw."],
+ ["through thick and thin","in good times and bad","They stayed together through thick and thin."],
+ ["touch base","make brief contact","Let's touch base on Monday."],
+ ["under the weather","slightly unwell","I'm a bit under the weather today."],
+ ["up in the air","undecided","The dates are still up in the air."],
+ ["a ballpark figure","a rough estimate","Give me a ballpark figure."],
+ ["burn bridges","destroy relationships permanently","Don't burn bridges when you resign."],
+ ["by the book","following rules exactly","She does everything by the book."],
+ ["cost an arm and a leg","be very expensive","That repair cost an arm and a leg."],
+ ["get cold feet","lose nerve before an event","He got cold feet the night before."],
+ ["give the benefit of the doubt","assume good intentions","I'll give her the benefit of the doubt."],
+ ["hit the ground running","start effectively at once","She hit the ground running in week one."],
+ ["in hot water","in trouble","He's in hot water with the auditors."],
+ ["keep an eye on","watch carefully","Keep an eye on the oven."],
+ ["make ends meet","have just enough money","They're struggling to make ends meet."],
+ ["no strings attached","without conditions","A free trial, no strings attached."],
+ ["on thin ice","in a risky position","You're on thin ice after last week."],
+ ["take something with a grain of salt","treat sceptically","Take online reviews with a grain of salt."]
+];
+
+const IRREGULAR = [
+ ["be","was / were","been"],["become","became","become"],["begin","began","begun"],["bend","bent","bent"],
+ ["bite","bit","bitten"],["blow","blew","blown"],["break","broke","broken"],["bring","brought","brought"],
+ ["build","built","built"],["burn","burnt / burned","burnt / burned"],["buy","bought","bought"],["catch","caught","caught"],
+ ["choose","chose","chosen"],["come","came","come"],["cost","cost","cost"],["cut","cut","cut"],
+ ["deal","dealt","dealt"],["dig","dug","dug"],["do","did","done"],["draw","drew","drawn"],
+ ["dream","dreamt / dreamed","dreamt / dreamed"],["drink","drank","drunk"],["drive","drove","driven"],["eat","ate","eaten"],
+ ["fall","fell","fallen"],["feed","fed","fed"],["feel","felt","felt"],["fight","fought","fought"],
+ ["find","found","found"],["fly","flew","flown"],["forget","forgot","forgotten"],["forgive","forgave","forgiven"],
+ ["freeze","froze","frozen"],["get","got","got / gotten"],["give","gave","given"],["go","went","gone"],
+ ["grow","grew","grown"],["hang","hung","hung"],["have","had","had"],["hear","heard","heard"],
+ ["hide","hid","hidden"],["hit","hit","hit"],["hold","held","held"],["hurt","hurt","hurt"],
+ ["keep","kept","kept"],["know","knew","known"],["lay","laid","laid"],["lead","led","led"],
+ ["learn","learnt / learned","learnt / learned"],["leave","left","left"],["lend","lent","lent"],["let","let","let"],
+ ["lie (recline)","lay","lain"],["lose","lost","lost"],["make","made","made"],["mean","meant","meant"],
+ ["meet","met","met"],["pay","paid","paid"],["put","put","put"],["read","read (/red/)","read (/red/)"],
+ ["ride","rode","ridden"],["ring","rang","rung"],["rise","rose","risen"],["run","ran","run"],
+ ["say","said","said"],["see","saw","seen"],["sell","sold","sold"],["send","sent","sent"],
+ ["set","set","set"],["shake","shook","shaken"],["shine","shone","shone"],["shoot","shot","shot"],
+ ["show","showed","shown"],["shut","shut","shut"],["sing","sang","sung"],["sink","sank","sunk"],
+ ["sit","sat","sat"],["sleep","slept","slept"],["speak","spoke","spoken"],["spend","spent","spent"],
+ ["stand","stood","stood"],["steal","stole","stolen"],["stick","stuck","stuck"],["swim","swam","swum"],
+ ["take","took","taken"],["teach","taught","taught"],["tear","tore","torn"],["tell","told","told"],
+ ["think","thought","thought"],["throw","threw","thrown"],["understand","understood","understood"],["wake","woke","woken"],
+ ["wear","wore","worn"],["win","won","won"],["write","wrote","written"]
+];
+
+const CONFUSED = [
+ ["affect / effect","Affect is the verb, effect is the noun.","The delay affected sales. / The effect was immediate."],
+ ["advice / advise","Advice is the noun, advise the verb.","She advised me. / That was good advice."],
+ ["lose / loose","Lose is the verb; loose means not tight.","Don't lose the key. / The screw is loose."],
+ ["practice / practise","In British English, practice is the noun, practise the verb.","I practise daily. / Daily practice helps."],
+ ["their / there / they're","Possession, place, and they are.","Their car is there because they're late."],
+ ["your / you're","Possession versus you are.","Your bag is here. You're early."],
+ ["its / it's","Its is possessive; it's means it is.","The dog wagged its tail. It's raining."],
+ ["then / than","Then is time; than is comparison.","Bigger than that. / We ate, then left."],
+ ["fewer / less","Fewer with countables, less with uncountables.","Fewer cars, less traffic."],
+ ["bring / take","Bring is towards the speaker, take is away.","Bring it here. / Take it home."],
+ ["borrow / lend","You borrow from; you lend to.","Can I borrow it? / Can you lend it to me?"],
+ ["say / tell","Tell needs a person; say usually doesn't.","He told me the news. / He said the news was bad."],
+ ["make / do","Make creates; do performs.","Make a decision. / Do the washing."],
+ ["remember / remind","You remember; something reminds you.","Remind me to call. / I remembered his name."],
+ ["economic / economical","Economic relates to the economy; economical means cheap to run.","Economic growth. / An economical car."],
+ ["historic / historical","Historic means important; historical means from the past.","A historic vote. / A historical novel."],
+ ["sensible / sensitive","Sensible means reasonable; sensitive means easily affected.","A sensible plan. / Sensitive skin."],
+ ["continuous / continual","Continuous is unbroken; continual is repeated.","Continuous rain. / Continual interruptions."],
+ ["principal / principle","Principal means main or head; a principle is a rule.","The principal reason. / A matter of principle."],
+ ["stationary / stationery","Stationary means not moving; stationery is paper and pens.","The car was stationary. / Order more stationery."],
+ ["complement / compliment","Complement completes; compliment praises.","The wine complements the dish. / She paid me a compliment."],
+ ["assure / ensure / insure","Assure a person, ensure a result, insure property.","I assure you. / Ensure it's locked. / Insure the house."],
+ ["imply / infer","The speaker implies; the listener infers.","He implied it. / I inferred it."],
+ ["lie / lay","Lie takes no object; lay does.","Lie down. / Lay the book on the table."],
+ ["rise / raise","Rise takes no object; raise does.","Prices rose. / They raised prices."],
+ ["travel / trip / journey","Travel is general; a trip is short; a journey is the movement itself.","I love travel. / A day trip. / A long journey."],
+ ["job / work","Job is countable; work is uncountable.","A good job. / A lot of work."],
+ ["look / see / watch","Look is deliberate, see is passive, watch is over time.","Look at this. / I saw him. / Watch the match."],
+ ["listen / hear","Listen is deliberate; hear is passive.","Listen carefully. / I heard a noise."],
+ ["during / while","During takes a noun; while takes a clause.","During the film. / While we watched."],
+ ["for / since","For is a length; since is a starting point.","For two years. / Since 2024."],
+ ["by / until","By is a deadline; until is duration.","Finish by five. / Wait until five."],
+ ["everyday / every day","Everyday is an adjective; every day is a time phrase.","Everyday clothes. / I run every day."],
+ ["a lot / alot","Alot is not a word.","Thanks a lot."],
+ ["could of / could have","Could of is a mishearing.","I could have told you."]
+];
+
+const LINKERS = [
+ ["Adding","furthermore, moreover, in addition, what's more, besides","Moreover, the cost has risen."],
+ ["Contrasting","however, nevertheless, on the other hand, whereas, although","Sales fell; however, margins improved."],
+ ["Giving reasons","because, since, as, due to, owing to","The talk was cancelled owing to illness."],
+ ["Showing results","therefore, consequently, as a result, hence, so","Demand rose; consequently, prices did too."],
+ ["Giving examples","for instance, such as, namely, in particular","Some cities, such as Pune, grew fast."],
+ ["Sequencing","first, subsequently, meanwhile, finally, in the meantime","Meanwhile, the audit continued."],
+ ["Emphasising","indeed, notably, above all, in fact","Above all, keep the tone neutral."],
+ ["Conceding","admittedly, granted, even so, that said","That said, the trend is clear."],
+ ["Clarifying","in other words, that is to say, put simply","In other words, we stop in June."],
+ ["Concluding","in short, on balance, to sum up, overall","On balance, the change worked."]
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY="wordsmith.v2";
+const DEF={level:"beginner",known:{},lessons:{},reads:{},talks:{},xp:0,last:null,streak:0,best:{}};
+let S=Object.assign({},DEF);
+
+function load(){
+  try{ const raw=localStorage.getItem(KEY); if(raw)S=Object.assign({},DEF,JSON.parse(raw)); }
+  catch(e){}
+  S.known=S.known||{};S.lessons=S.lessons||{};S.reads=S.reads||{};S.talks=S.talks||{};S.best=S.best||{};
+  touchStreak();
+}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
+function today(){return new Date().toISOString().slice(0,10);}
+function touchStreak(){
+  const t=today(); if(S.last===t)return;
+  const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  S.streak=(S.last===y)?(S.streak||0)+1:1; S.last=t; save();
+}
+function award(n){S.xp=(S.xp||0)+n;save();}
+
+const $=s=>document.querySelector(s);
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function lv(){return S.level;}
+function pct(d,t){return t?Math.round(100*d/t):0;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function counts(){
+  const v=VOCAB[lv()],g=GRAMMAR[lv()],t=TALK[lv()],r=READ[lv()];
+  return {
+    words:[v.filter(x=>S.known[x.id]).length,v.length],
+    grammar:[g.filter(x=>S.lessons[x.id]).length,g.length],
+    talk:[t.filter(x=>S.talks[x.id]).length,t.length],
+    read:[r.filter(x=>S.reads[x.id]).length,r.length]
+  };
+}
+function totalItems(){
+  let n=0;["beginner","intermediate","advanced"].forEach(L=>{
+    n+=VOCAB[L].length+GRAMMAR[L].length+TALK[L].length+READ[L].length;});
+  return n+PHRASAL.length+IDIOMS.length+IRREGULAR.length+CONFUSED.length+LINKERS.length;
+}
+
+/* ---------- shared quiz ---------- */
+function quizHTML(qs){
+  return qs.map((q,i)=>`
+    <div class="q" data-qi="${i}">
+      <div class="qcount">Question ${i+1} of ${qs.length}</div>
+      <div class="stem">${q.s}</div>
+      ${q.o.map((o,j)=>`<button class="opt" data-qi="${i}" data-oi="${j}">${esc(o)}</button>`).join("")}
+      <div class="why hidden"></div>
+    </div>`).join("");
+}
+function wireQuiz(root,qs,onDone){
+  let answered=0,right=0;
+  root.querySelectorAll(".opt").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const qi=+btn.dataset.qi,oi=+btn.dataset.oi,q=qs[qi];
+      const box=root.querySelector('.q[data-qi="'+qi+'"]');
+      if(box.dataset.done)return;
+      box.dataset.done="1";answered++;
+      box.querySelectorAll(".opt").forEach((b,j)=>{
+        b.disabled=true;
+        if(j===q.c)b.classList.add("right"); else if(j===oi)b.classList.add("wrong");
+      });
+      if(oi===q.c){right++;award(5);}
+      const why=box.querySelector(".why");
+      why.textContent=q.w;why.classList.remove("hidden");
+      if(answered===qs.length&&onDone)onDone(right,qs.length);
+    });
+  });
+}
+
+/* ============================================================
+   AI (optional)
+   ============================================================ */
+let AI=null;
+const AIP=(async()=>{
+  try{ AI=(window.claude&&claude.use)?await claude.use("sample"):null; }catch(e){ AI=null; }
+  return AI;
+})();
+async function settleAI(root){
+  await AIP;
+  if(!AI)root.querySelectorAll("[data-needsai]").forEach(el=>el.remove());
+  return AI;
+}
+function checkerHTML(prompt){
+  return `<div class="ai" data-needsai>
+    <h4>Write a sentence</h4>
+    <p class="hint">${esc(prompt)} You'll get it back corrected, with a short note on why.</p>
+    <textarea class="chkin" placeholder="Type your sentence here"></textarea>
+    <div style="margin-top:10px"><button class="btn chkgo">Check my sentence</button></div>
+    <div class="chkout"></div>
+  </div>`;
+}
+function wireChecker(root,context){
+  const panel=root.querySelector(".ai[data-needsai]");
+  if(!panel)return;
+  const ta=panel.querySelector(".chkin"),go=panel.querySelector(".chkgo"),out=panel.querySelector(".chkout");
+  go.addEventListener("click",async()=>{
+    const text=ta.value.trim();
+    if(!text){ta.focus();return;}
+    if(!AI){out.innerHTML='<div class="fbk">Sentence checking isn\'t available in this view.</div>';return;}
+    go.disabled=true;out.innerHTML='<div class="spin">Reading your sentence…</div>';
+    try{
+      const r=await AI.json([{role:"user",content:
+"You are a patient English teacher. A learner at "+lv()+" level is practising: "+context+
+"\n\nTheir sentence: \""+text+"\"\n\nReply with ONLY a JSON object, no markdown fences:\n"+
+'{"ok": true or false, "corrected": "the corrected sentence, or their sentence unchanged if already correct", "note": "one or two short sentences explaining the change, or praising what they got right. Plain, encouraging, no jargon."}'}],
+        {modelTier:"quick"});
+      const ok=!!r.ok;
+      out.innerHTML='<div class="fbk"><div class="verdict '+(ok?"ok":"fix")+'">'+
+        (ok?"That works.":"Nearly — here's a cleaner version.")+'</div><div class="fixed">'+
+        esc(r.corrected||text)+'</div><div>'+esc(r.note||"")+'</div></div>';
+      award(10);
+    }catch(e){
+      out.innerHTML='<div class="fbk">'+(e&&e.code==="rate_limited"
+        ?"Too many checks just now. Try again in a minute.":"Couldn't check that one. Try again.")+'</div>';
+    }
+    go.disabled=false;
+  });
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function renderHome(){
+  const list=VOCAB[lv()];
+  const wod=list[new Date().getDate()%list.length];
+  const c=counts();
+  const rows=[
+    ["words","Words",list.length+" cards at this level",c.words],
+    ["grammar","Grammar",GRAMMAR[lv()].length+" lessons with practice",c.grammar],
+    ["talk","Talk",TALK[lv()].length+" conversations to work through",c.talk],
+    ["read","Read",READ[lv()].length+" passages with questions",c.read]
+  ];
+  $("#home").innerHTML=`
+    <div class="hero">
+      <div class="kicker">Today's word</div>
+      <p class="word">${esc(wod.w)}</p>
+      <div class="ipa">${esc(wod.ipa)} &nbsp;<span class="pos">${esc(wod.pos)}</span></div>
+      <p class="sense">${esc(wod.def)}</p>
+      <p class="usage">${esc(wod.ex)}</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${S.streak||1}</b><span>day${(S.streak||1)===1?"":"s"} in a row</span></div>
+      <div class="stat"><b>${S.xp||0}</b><span>points earned</span></div>
+      <div class="stat"><b>${c.words[0]}</b><span>words learned</span></div>
+    </div>
+    ${rows.map(([go,nm,ds,[d,t]])=>`
+      <button class="skillrow" data-go="${go}">
+        <span class="grow"><span class="nm">${nm}</span><span class="ds">${ds}</span>
+        <span class="meter"><i style="width:${pct(d,t)}%"></i></span></span>
+        <span class="pct">${d}/${t}</span>
+      </button>`).join("")}
+    <button class="skillrow" data-go="tools">
+      <span class="grow"><span class="nm">Reference tools</span>
+      <span class="ds">${PHRASAL.length} phrasal verbs · ${IDIOMS.length} idioms · ${IRREGULAR.length} irregular verbs · ${CONFUSED.length} confusable pairs</span></span>
+      <span class="pct">→</span>
+    </button>
+    <p class="vsub" style="margin-top:16px;font-size:13px">${totalItems()} items across all three levels. Switch level at the top to see the rest.</p>`;
+  $("#home").querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+}
+
+/* ============================================================
+   WORDS
+   ============================================================ */
+let deck=[],di=0,flipped=false,wordsMode="deck";
+function renderWords(){
+  if(wordsMode==="quiz")return drawWordQuiz();
+  deck=VOCAB[lv()].slice();di=0;flipped=false;drawCard();
+}
+function modeBar(active){
+  return `<div class="chips">
+    <button class="chip" data-wm="deck" aria-pressed="${active==="deck"}">Flashcards</button>
+    <button class="chip" data-wm="quiz" aria-pressed="${active==="quiz"}">Test me</button>
+  </div>`;
+}
+function wireModeBar(root){
+  root.querySelectorAll("[data-wm]").forEach(b=>b.addEventListener("click",()=>{
+    wordsMode=b.dataset.wm; renderWords(); window.scrollTo(0,0);
+  }));
+}
+function drawCard(){
+  const root=$("#words");
+  if(di>=deck.length){
+    const learned=VOCAB[lv()].filter(x=>S.known[x.id]).length;
+    root.innerHTML=`<h2 class="vh">Words</h2>${modeBar("deck")}
+      <div class="card scorebox"><b>${learned}/${VOCAB[lv()].length}</b>
+      <p class="vsub" style="margin:8px auto 18px">words marked as known at this level.</p>
+      <button class="btn" id="again">Go through the deck again</button></div>`;
+    wireModeBar(root);
+    root.querySelector("#again").addEventListener("click",()=>{wordsMode="deck";renderWords();});
+    return;
+  }
+  const c=deck[di];
+  root.innerHTML=`
+    <h2 class="vh">Words</h2>
+    ${modeBar("deck")}
+    <div class="deckhead"><span class="cnt">${di+1} of ${deck.length}</span></div>
+    <div class="flash" id="flash" role="button" tabindex="0">
+      ${flipped?`<div class="back">
+          <div class="word" style="font-size:26px">${esc(c.w)}</div>
+          <div class="ipa">${esc(c.ipa)} &nbsp;<span class="pos">${esc(c.pos)}</span></div>
+          <p class="sense">${esc(c.def)}</p>
+          <p class="usage">${esc(c.ex)}</p>
+          ${c.note?`<p class="sense" style="font-size:13.5px;color:var(--ink-faint);margin-top:12px">${esc(c.note)}</p>`:""}
+        </div>`:`<div><div class="word">${esc(c.w)}</div><div class="ipa">${esc(c.ipa)}</div></div>
+        <div class="tapnote">Tap to reveal</div>`}
+    </div>
+    <div class="cardacts ${flipped?"":"hidden"}">
+      <button class="btn againbtn" id="soso">Still learning</button>
+      <button class="btn knowbtn" id="knew">I knew it</button>
+    </div>
+    ${checkerHTML("Use “"+c.w+"” in a sentence of your own.")}`;
+  wireModeBar(root);
+  const f=root.querySelector("#flash");
+  const flip=()=>{flipped=!flipped;drawCard();};
+  f.addEventListener("click",flip);
+  f.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();flip();}});
+  if(flipped){
+    root.querySelector("#knew").addEventListener("click",()=>{S.known[c.id]=1;award(5);save();di++;flipped=false;drawCard();});
+    root.querySelector("#soso").addEventListener("click",()=>{delete S.known[c.id];save();di++;flipped=false;drawCard();});
+  }
+  wireChecker(root,'the vocabulary word "'+c.w+'" ('+c.def+')');
+  settleAI(root);
+}
+function buildWordQuiz(){
+  const pool=VOCAB[lv()];
+  return shuffle(pool).slice(0,10).map(item=>{
+    const wrong=shuffle(pool.filter(x=>x.id!==item.id)).slice(0,3).map(x=>x.w);
+    const opts=shuffle([item.w].concat(wrong));
+    return {s:item.def,o:opts,c:opts.indexOf(item.w),w:item.w+" "+item.ipa+" — "+item.ex};
+  });
+}
+function drawWordQuiz(){
+  const root=$("#words");
+  const qs=buildWordQuiz();
+  root.innerHTML=`<h2 class="vh">Words</h2>${modeBar("quiz")}
+    <p class="vsub">Ten definitions, drawn at random from this level. Pick the word that fits.</p>
+    <div id="wq">${quizHTML(qs)}</div><div id="ws"></div>`;
+  wireModeBar(root);
+  wireQuiz(root.querySelector("#wq"),qs,(right,total)=>{
+    const key="vq-"+lv();
+    const best=Math.max(S.best[key]||0,right);S.best[key]=best;award(10);save();
+    root.querySelector("#ws").innerHTML=`<div class="card scorebox" style="margin-top:20px">
+      <b>${right}/${total}</b><p class="vsub" style="margin:6px auto 14px">Your best at this level: ${best}/10.</p>
+      <button class="btn" id="retry">Another ten</button></div>`;
+    root.querySelector("#retry").addEventListener("click",()=>{drawWordQuiz();window.scrollTo(0,0);});
+  });
+}
+
+/* ============================================================
+   GRAMMAR
+   ============================================================ */
+function renderGrammar(){
+  const root=$("#grammar");
+  root.innerHTML=`<h2 class="vh">Grammar</h2>
+    <p class="vsub">${GRAMMAR[lv()].length} lessons at this level. Each is a short read followed by practice.</p>
+    ${GRAMMAR[lv()].map((l,i)=>`
+      <button class="listitem" data-id="${l.id}">
+        <span class="num">${i+1}</span>
+        <span class="grow"><span class="nm">${esc(l.t)}</span>
+        <span class="ds">${l.qs.length} practice questions</span></span>
+        ${S.lessons[l.id]?'<span class="doneflag">✓</span>':""}
+      </button>`).join("")}`;
+  root.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>openLesson(b.dataset.id)));
+}
+function openLesson(id){
+  const l=GRAMMAR[lv()].find(x=>x.id===id),root=$("#grammar");
+  root.innerHTML=`
+    <button class="backlink" id="back">← All lessons</button>
+    <div class="lesson">
+      <h3>${esc(l.t)}</h3>
+      ${l.body.map(p=>"<p>"+p+"</p>").join("")}
+      <div class="exbox">${l.ex.map(e=>'<div class="ex">'+esc(e[0])+"<em>"+esc(e[1])+"</em></div>").join("")}</div>
+      <div id="gq">${quizHTML(l.qs)}</div>
+      <div id="gs"></div>
+    </div>
+    ${checkerHTML("Write one sentence using "+l.t.toLowerCase()+".")}`;
+  root.querySelector("#back").addEventListener("click",renderGrammar);
+  wireQuiz(root.querySelector("#gq"),l.qs,(right,total)=>{
+    S.lessons[l.id]=1;award(10);save();
+    root.querySelector("#gs").innerHTML=`<div class="card scorebox" style="margin-top:20px">
+      <b>${right}/${total}</b><p class="vsub" style="margin:6px auto 0">${
+        right===total?"Lesson complete — nothing missed.":"Lesson complete. Re-read the notes on the ones you missed."}</p></div>`;
+  });
+  wireChecker(root,'the grammar point "'+l.t+'"');
+  settleAI(root);
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   TALK
+   ============================================================ */
+function renderTalk(){
+  const root=$("#talk");
+  root.innerHTML=`<h2 class="vh">Talk</h2>
+    <p class="vsub">Read the conversation, learn the phrases doing the work, then try it yourself.</p>
+    ${TALK[lv()].map(s=>`
+      <button class="listitem" data-id="${s.id}">
+        <span class="grow"><span class="nm">${esc(s.t)}</span><span class="ds">${esc(s.set)}</span></span>
+        ${S.talks[s.id]?'<span class="doneflag">✓</span>':""}
+      </button>`).join("")}`;
+  root.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>openTalk(b.dataset.id)));
+}
+function openTalk(id){
+  const s=TALK[lv()].find(x=>x.id===id),root=$("#talk");
+  root.innerHTML=`
+    <button class="backlink" id="back">← All conversations</button>
+    <div class="lesson">
+      <h3>${esc(s.t)}</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px">${esc(s.set)}</p>
+      <div style="margin:18px 0">
+        ${s.d.map(l=>'<div class="line '+(l[0]==="You"?"you":"")+'"><span class="who">'+esc(l[0])+
+          '</span><span class="said">'+esc(l[1])+"</span></div>").join("")}
+      </div>
+      <h4 style="font-size:15px;margin:22px 0 4px">Phrases worth keeping</h4>
+      <div class="card" style="padding:2px 16px">
+        ${s.p.map(p=>'<div class="phrase"><div class="p">'+esc(p[0])+'</div><div class="n">'+esc(p[1])+"</div></div>").join("")}
+      </div>
+      <div class="ai" data-needsai>
+        <h4>Try it yourself</h4>
+        <p class="hint">You take the learner's part. Reply naturally — you'll get a gentle correction when something sounds off.</p>
+        <div class="chatlog" id="log"></div>
+        <input type="text" id="say" placeholder="Type your reply and press Enter">
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn" id="send">Send</button>
+          <button class="btn ghost" id="restart">Start over</button>
+        </div>
+      </div>
+    </div>`;
+  root.querySelector("#back").addEventListener("click",renderTalk);
+  S.talks[s.id]=1;award(5);save();
+  settleAI(root).then(ai=>{ if(ai&&root.querySelector("#log"))wireChat(root,s); });
+  window.scrollTo(0,0);
+}
+function wireChat(root,s){
+  const log=root.querySelector("#log"),inp=root.querySelector("#say"),
+        send=root.querySelector("#send"),restart=root.querySelector("#restart");
+  const other=s.d[0][0];
+  let turns=[];
+  function bub(who,text){
+    const row=document.createElement("div");
+    row.className="chatrow"+(who==="me"?" me":"");
+    const b=document.createElement("div");b.className="bub";b.textContent=text;
+    row.appendChild(b);log.appendChild(row);log.scrollTop=log.scrollHeight;return b;
+  }
+  function opener(){ log.innerHTML="";turns=[];bub("them",s.d[0][1]);turns.push({role:"assistant",content:s.d[0][1]}); }
+  opener();
+  restart.addEventListener("click",opener);
+  async function goSend(){
+    const text=inp.value.trim();if(!text)return;
+    inp.value="";bub("me",text);turns.push({role:"user",content:text});
+    const el=bub("them","Thinking…");send.disabled=true;
+    const sys="You are role-playing a spoken English conversation to help a "+lv()+"-level learner practise.\n"+
+      "Scene: "+s.set+"\nYou play \""+other+"\". The learner plays the other person.\n"+
+      "Rules: stay in character; keep each reply to one or two short spoken sentences; use natural everyday English at roughly "+lv()+" level; move the conversation forward and ask something back.\n"+
+      "If the learner's last message has a clear English mistake, add one short correction at the very end on a new line starting with \"↩ \". Example: ↩ Say \"I'd like a coffee\" rather than \"I want coffee\".\n"+
+      "Never break character other than for that one correction line.";
+    try{
+      const r=await AI([{role:"user",content:sys}].concat(turns),
+        {modelTier:"quick",onText:o=>{el.textContent=o.text;log.scrollTop=log.scrollHeight;}});
+      el.textContent=r.text;turns.push({role:"assistant",content:r.text});award(5);
+    }catch(e){
+      el.textContent=(e&&e.code==="rate_limited")
+        ?"Let's pause a moment — too many messages at once.":"That didn't send. Try again.";
+    }
+    send.disabled=false;inp.focus();
+  }
+  send.addEventListener("click",goSend);
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();goSend();}});
+}
+
+/* ============================================================
+   READ
+   ============================================================ */
+function renderRead(){
+  const root=$("#read");
+  root.innerHTML=`<h2 class="vh">Read</h2>
+    <p class="vsub">${READ[lv()].length} passages chosen for this level, each with comprehension questions.</p>
+    ${READ[lv()].map(r=>`
+      <button class="listitem" data-id="${r.id}">
+        <span class="grow"><span class="nm">${esc(r.t)}</span>
+        <span class="ds">${r.mins} min read · ${r.qs.length} questions</span></span>
+        ${S.reads[r.id]?'<span class="doneflag">✓</span>':""}
+      </button>`).join("")}`;
+  root.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>openRead(b.dataset.id)));
+}
+function openRead(id){
+  const r=READ[lv()].find(x=>x.id===id),root=$("#read");
+  root.innerHTML=`
+    <button class="backlink" id="back">← All passages</button>
+    <div class="lesson">
+      <h3>${esc(r.t)}</h3>
+      <div class="passage">${r.p.map(p=>"<p>"+esc(p)+"</p>").join("")}</div>
+      <div id="rq">${quizHTML(r.qs)}</div><div id="rs"></div>
+    </div>`;
+  root.querySelector("#back").addEventListener("click",renderRead);
+  wireQuiz(root.querySelector("#rq"),r.qs,(right,total)=>{
+    S.reads[r.id]=1;award(10);save();
+    root.querySelector("#rs").innerHTML=`<div class="card scorebox" style="margin-top:20px">
+      <b>${right}/${total}</b><p class="vsub" style="margin:6px auto 0">${
+        right===total?"Every question right.":right/total>=0.6?"Solid — check the notes on the ones you missed."
+        :"Worth reading once more, then trying again."}</p></div>`;
+  });
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   TOOLS
+   ============================================================ */
+let toolTab="phrasal",toolQ="";
+const TOOLS=[
+  ["phrasal","Phrasal verbs"],["idioms","Idioms"],["irregular","Irregular verbs"],
+  ["confused","Easily confused"],["linkers","Linking words"]
+];
+function renderTools(){
+  const root=$("#tools");
+  root.innerHTML=`<h2 class="vh">Reference tools</h2>
+    <p class="vsub">The lists worth keeping close. Search filters whichever list is open.</p>
+    <div class="chips">${TOOLS.map(t=>
+      `<button class="chip" data-tt="${t[0]}" aria-pressed="${toolTab===t[0]}">${t[1]}</button>`).join("")}</div>
+    <input type="text" class="searchbox" id="tsearch" placeholder="Search" value="${esc(toolQ)}">
+    <div id="tbody"></div>`;
+  root.querySelectorAll("[data-tt]").forEach(b=>b.addEventListener("click",()=>{
+    toolTab=b.dataset.tt;renderTools();
+  }));
+  const box=root.querySelector("#tsearch");
+  box.addEventListener("input",()=>{toolQ=box.value;drawTools();});
+  drawTools();
+}
+function drawTools(){
+  const body=$("#tbody"),q=toolQ.trim().toLowerCase();
+  const hit=row=>!q||row.join(" ").toLowerCase().includes(q);
+  let rows,html;
+  if(toolTab==="irregular"){
+    rows=IRREGULAR.filter(hit);
+    html=`<div class="tally">${rows.length} verbs</div><div class="card scrollx" style="padding:4px 16px">
+      <table class="vtable"><thead><tr><th>Base</th><th>Past simple</th><th>Past participle</th></tr></thead>
+      <tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}
+      </tbody></table></div>`;
+  }else{
+    const src={phrasal:PHRASAL,idioms:IDIOMS,confused:CONFUSED,linkers:LINKERS}[toolTab];
+    rows=src.filter(hit);
+    const label={phrasal:"phrasal verbs",idioms:"idioms",confused:"pairs",linkers:"groups"}[toolTab];
+    html=`<div class="tally">${rows.length} ${label}</div><div class="card" style="padding:4px 16px">
+      ${rows.map(r=>`<div class="entry"><div class="hw">${esc(r[0])}</div>
+        <div class="mn">${esc(r[1])}</div><div class="eg">${esc(r[2])}</div></div>`).join("")}</div>`;
+  }
+  if(!rows.length)html='<div class="empty">Nothing matches that. Try a shorter search.</div>';
+  body.innerHTML=html;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+const R={home:renderHome,words:renderWords,grammar:renderGrammar,talk:renderTalk,read:renderRead,tools:renderTools};
+function go(name){
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+name));
+  document.querySelectorAll(".tab").forEach(t=>{
+    if(t.dataset.go===name)t.setAttribute("aria-current","page");else t.removeAttribute("aria-current");});
+  R[name]();window.scrollTo(0,0);
+}
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#lvlpick").addEventListener("change",e=>{
+  S.level=e.target.value;save();wordsMode="deck";
+  const cur=document.querySelector('.tab[aria-current="page"]');
+  go(cur?cur.dataset.go:"home");
+});
+$("#themebtn").addEventListener("click",()=>{
+  const cur=document.documentElement.dataset.theme;
+  const dark=window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme=cur?(cur==="dark"?"light":"dark"):(dark?"light":"dark");
+});
+
+load();
+$("#lvlpick").value=S.level;
+go("home");
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+  });
+}
+
+</script>
+</body>
+</html>
