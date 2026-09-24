@@ -1,6 +1,7 @@
 {
   "name": "Wordsmith — learn English",
   "short_name": "Wordsmith",
+  "id": "/Wordsmith-app/",
   "description": "Learn English vocabulary, grammar, conversation and reading at your own level.",
   "start_url": "./index.html",
   "scope": "./",
